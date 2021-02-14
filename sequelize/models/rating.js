@@ -10,14 +10,6 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			type: DataTypes.INTEGER
 		},
-		book_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER
-		},
-		user_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER
-		},
     score: {
 			allowNull: true,
 			type: DataTypes.INTEGER

@@ -29,11 +29,11 @@ module.exports = (sequelize) => {
 			allowNull: false,
 			type: DataTypes.STRING
     },
-		first_name: {
+		firstName: {
 			allowNull: true,
 			type: DataTypes.STRING
     },
-    last_name: {
+    lastName: {
 			allowNull: true,
 			type: DataTypes.STRING
     },

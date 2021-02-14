@@ -9,14 +9,6 @@ module.exports = (sequelize) => {
 			autoIncrement: true,
 			primaryKey: true,
 			type: DataTypes.INTEGER
-    },
-    wish_list_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER
-    },
-		book_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER
     }
 	});
 };

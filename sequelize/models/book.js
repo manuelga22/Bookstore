@@ -15,23 +15,19 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       unique: true
     },
-    author_id: {
-			allowNull: false,
-      type: DataTypes.INTEGER
-		},
     genre: {
 			allowNull: false,
 			type: DataTypes.TEXT
     },
-    release_date: {
+    releaseDate: {
       allowNull: false,
       type: DataTypes.DATEONLY
     },
-    price_cents: {
+    priceCents: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
-    cover_url: {
+    coverUrl: {
       allowNull: true,
       type: DataTypes.STRING,
       validate: {

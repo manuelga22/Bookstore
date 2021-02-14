@@ -10,14 +10,6 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 			type: DataTypes.INTEGER
 		},
-		user_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER
-    },
-    book_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER
-		},
     quantity: {
 			allowNull: false,
 			type: DataTypes.INTEGER
@@ -27,17 +19,9 @@ module.exports = (sequelize) => {
       default: false,
 			type: DataTypes.TINYINT
     },
-    purchased_at: {
+    purchasedAt: {
 			allowNull: true,
 			type: DataTypes.DATE
-    },
-    credit_card_id: {
-			allowNull: true,
-			type: DataTypes.INTEGER
-		},
-		shipping_address_id: {
-			allowNull: true,
-			type: DataTypes.INTEGER
-		}
+    }
 	});
 };

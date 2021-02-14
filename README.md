@@ -16,7 +16,6 @@ Create the database:
 
 `echo "create database `geek_text`" | mysql -u username -p`
 
-Import the schema to create the tables:
+Run the setup command
 
-`mysql -u username -p geek_text < ./database/schema.sql`
-
+`npm run setup-db`

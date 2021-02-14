@@ -6,8 +6,8 @@ const { applyAssociations } = require('./associations');
 const sequelize = new Sequelize(process.env.GEEK_TEXT_DB_CONNECTION_URL);
 
 const modelDefiners = [
-	require('./models/author'),
-	require('./models/book'),
+  require('./models/author'),
+  require('./models/book'),
   require('./models/credit_card'),
   require('./models/rating'),
   require('./models/shipping_address'),
@@ -19,7 +19,7 @@ const modelDefiners = [
 
 // We define all models according to their files.
 for (const modelDefiner of modelDefiners) {
-	modelDefiner(sequelize);
+  modelDefiner(sequelize);
 }
 
 // We execute any extra setup after the models are defined, such as adding associations.

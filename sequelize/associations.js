@@ -1,6 +1,6 @@
 // Defines all associations between models
 function applyAssociations(sequelize) {
-	const { 
+  const { 
     Author,
     Book,
     CreditCard,

@@ -10,19 +10,19 @@ app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials', function (err) {});
 
 async function assertDatabaseConnectionOk() {
-	console.log(`Checking database connection...`);
-	try {
-		await sequelize.authenticate();
-		console.log('Database connection OK!');
-	} catch (error) {
-		console.log('Unable to connect to the database:');
-		console.log(error.message);
-		process.exit(1);
-	}
+  console.log(`Checking database connection...`);
+  try {
+    await sequelize.authenticate();
+    console.log('Database connection OK!');
+  } catch (error) {
+    console.log('Unable to connect to the database:');
+    console.log(error.message);
+    process.exit(1);
+  }
 }
 
 async function init() {
-	await assertDatabaseConnectionOk();
+  await assertDatabaseConnectionOk();
 
   // get and post routes
   const homeRoutes = require("./routes/homeRoutes")

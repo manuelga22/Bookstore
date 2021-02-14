@@ -16,6 +16,12 @@ Create the database:
 
 `echo "create database `geek_text`" | mysql -u username -p`
 
+Set up an environment variable with the connection string (in ~/.bash_profile or ~/.zshrc on Max/Linux)
+
+E.g. `export GEEK_TEXT_DB_CONNECTION_URL="mysql://user:pass@127.0.0.1:3306/database_name"`
+
+(If you're using Windows, the following link should give guidance: https://support.shotgunsoftware.com/hc/en-us/articles/114094235653-Setting-global-environment-variables-on-Windows)
+
 Run the setup command
 
 `npm run setup-db`

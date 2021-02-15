@@ -14,7 +14,7 @@ On Mac/Linux these commands work. Not sure about Windows shells. Run these in yo
 
 Create the database:
 
-`echo "create database `geek_text`" | mysql -u username -p`
+`echo "create database geek_text" | mysql -u username -p`
 
 Set up an environment variable with the connection string (in ~/.bash_profile or ~/.zshrc on Max/Linux)
 

@@ -1,0 +1,11 @@
+<div class="wish-lists container">
+  <h1>Wish Lists</h1>
+  
+  <div class="buttons"><a class="btn btn-primary" href="{{urls.new}}">Create a new Wish List</a></div>
+  
+  <ul>
+    {{#each wishLists}}
+      <li><a href="/wish_lists/{{id}}">{{name}}</a></li>
+    {{/each}}
+  </ul>
+</div>

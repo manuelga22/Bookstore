@@ -1,18 +1,21 @@
-// Common API methpds used by all models
+// Common API methpds used by all classes
 const { models } = require('../sequelize');
 const { getIdParam } = require('../helpers');
 const { singularize } = require('sequelize/lib/utils');
 
 class Api {
+  constructor() {
+    this.baseUrl = "";
+  }
   async all(req, res) {
-    const objects = await models[singularize(this.name)].findAll();
+    const objects = await models[singularize(this.constructor.name)].findAll();
     
     res.status(200).json(objects);
   };
 
   async find(req, res) {
     const id = getIdParam(req);
-    const object = await models[singularize(this.name)].findByPk(id);
+    const object = await models[singularize(this.constructor.name)].findByPk(id);
     
     if (object) {
       res.status(200).json(object);
@@ -22,23 +25,34 @@ class Api {
   };
 
   async create(req, res) {
-    await models[singularize(this.name)].create(req.body);
+    const object = await models[singularize(this.constructor.name)].create(req.body);
 
-    res.status(201).end();
+    if (object) {
+      res.status(201).json(object);
+    } else {
+      // TODO - handle error from object creation above
+      res.status(422).send('422 - Unprocessable entity');
+    }
   };
 
   async update(req, res) {
     const id = getIdParam(req);
     
-    await models[singularize(this.name)].update(req.body, { where: { id: id } });
+    await models[singularize(this.constructor.name)].update(req.body, { where: { id: id } });
+    const object = await models[singularize(this.constructor.name)].findByPk(id);
 
-    res.status(200).end();
+    if (object) {
+      res.status(200).json(object);
+    } else {
+      // TODO - handle error from object creation above
+      res.status(422).send('422 - Unprocessable entity');
+    }
   };
 
   async destroy(req, res) {
     const id = getIdParam(req);
 
-    await models[singularize(this.name)].destroy({ where: { id: id } });
+    await models[singularize(this.constructor.name)].destroy({ where: { id: id } });
 
     res.status(200).end();
   };

@@ -25,11 +25,26 @@ hbs.registerPartials(__dirname + '/views/partials', function (err) {});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// We do this so we can A) use PUT/DELETE in browser that don't support it
+// and B) so we can create links to delete records (e.g. /wish_lists/:id?_method=DELETE)
+app.use(function(req, res, next) {
+  if (req.query._method == 'PUT') {
+    req.method = 'PUT';
+    req.url = req.path;
+  }
+  if (req.query._method == 'DELETE') {
+    req.method = 'DELETE';
+    req.url = req.path;
+  }
+
+  next(); 
+});
+
 // We create a wrapper to workaround async errors not being transmitted correctly.
 function makeHandlerAwareOfAsyncErrors(handler) {
   return async function(req, res, next) {
     try {
-      await handler(req, res);
+      await (handler(req, res));
     } catch (error) {
       next(error);
     }
@@ -52,38 +67,91 @@ async function init() {
   await assertDatabaseConnectionOk();
 
   // We define the standard REST APIs for each route
-  for (const [routeName, routeController] of Object.entries(routes)) {
-    if (new routeController().all !== undefined) {
+  for (let [routeName, routeController] of Object.entries(routes)) {
+    routeController = new routeController()
+    // API
+    if (routeController.all !== undefined) {
       app.get(
         `/api/${routeName}`,
-        makeHandlerAwareOfAsyncErrors(new routeController().all.bind(routeController))
+        makeHandlerAwareOfAsyncErrors(routeController.all.bind(routeController))
       );
     }
-    if (new routeController().find !== undefined) {
+    if (routeController.find !== undefined) {
       app.get(
         `/api/${routeName}/:id`,
-        makeHandlerAwareOfAsyncErrors(new routeController().find.bind(routeController))
+        makeHandlerAwareOfAsyncErrors(routeController.find.bind(routeController))
       );
     }
-    if (new routeController().create !== undefined) {
+    if (routeController.create !== undefined) {
       app.post(
         `/api/${routeName}`,
-        makeHandlerAwareOfAsyncErrors(new routeController().create.bind(routeController))
+        makeHandlerAwareOfAsyncErrors(routeController.create.bind(routeController))
       );
     }
-    if (new routeController().update !== undefined) {
+    if (routeController.update !== undefined) {
       app.put(
         `/api/${routeName}/:id`,
-        makeHandlerAwareOfAsyncErrors(new routeController().update.bind(routeController))
+        makeHandlerAwareOfAsyncErrors(routeController.update.bind(routeController))
       );
     }
-    if (new routeController().destroy !== undefined) {
+    if (routeController.destroy !== undefined) {
       app.delete(
         `/api/${routeName}/:id`,
-        makeHandlerAwareOfAsyncErrors(new routeController().destroy.bind(routeController))
+        makeHandlerAwareOfAsyncErrors(routeController.destroy.bind(routeController))
+      );
+    }
+
+    // Pages
+    if (routeController.index !== undefined) {
+      app.get(
+        `/${routeName}`,
+        routeController.index.bind(routeController)
+      );
+    }
+    if (routeController.new !== undefined) {
+      app.get(
+        `/${routeName}/new`,
+        routeController.new.bind(routeController)
+      );
+    }
+    if (routeController.show !== undefined) {
+      app.get(
+        `/${routeName}/:id`,
+        routeController.show.bind(routeController)
+      );
+    }
+    if (routeController.edit !== undefined) {
+      app.get(
+        `/${routeName}/:id/edit`,
+        routeController.edit.bind(routeController)
+      );
+    }
+    if (routeController.createAction !== undefined) {
+      app.post(
+        `/${routeName}`,
+        routeController.createAction.bind(routeController)
+      );
+    }
+    if (routeController.updateAction !== undefined) {
+      app.put(
+        `/${routeName}/:id`,
+        routeController.updateAction.bind(routeController)
+      );
+    }
+    if (routeController.destroyAction !== undefined) {
+      app.delete(
+        `/${routeName}/:id`,
+        routeController.destroyAction.bind(routeController)
       );
     }
   }
+  // See all registered routes (for debugging)
+  app.get('/routes', (req, res) => {
+    res.send(app._router.stack
+        .filter(r => r.route) 
+        .map(r => r.route.path))
+  })
+  
 
   // get and post routes
   const homeRoutes = require("./routes/homeRoutes")

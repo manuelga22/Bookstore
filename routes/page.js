@@ -65,6 +65,7 @@ class Page extends Api {
         {
           [humps.camelize(singularize(this.constructor.name))]: success.data,
           urls: {
+            show: this.showPageUrl(req.params.id),
             update: this.updatePageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }

@@ -3,9 +3,9 @@
   
   <div class="buttons"><a class="btn btn-primary" href="{{urls.new}}">Create a new Wish List</a></div>
   
-  <ul>
+  <ul class="list-group">
     {{#each wishLists}}
-      <li><a href="/wish_lists/{{id}}">{{name}}</a></li>
+      <li class="list-group-item"><a href="/wish_lists/{{id}}">{{name}}</a></li>
     {{/each}}
   </ul>
 </div>

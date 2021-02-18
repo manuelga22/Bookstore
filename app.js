@@ -103,46 +103,26 @@ async function init() {
 
     // Pages
     if (routeController.index !== undefined) {
-      app.get(
-        `/${routeName}`,
-        routeController.index.bind(routeController)
-      );
+      app.get(`/${routeName}`, routeController.index.bind(routeController));
     }
     if (routeController.new !== undefined) {
-      app.get(
-        `/${routeName}/new`,
-        routeController.new.bind(routeController)
-      );
+      app.get(`/${routeName}/new`, routeController.new.bind(routeController));
     }
     if (routeController.show !== undefined) {
-      app.get(
-        `/${routeName}/:id`,
-        routeController.show.bind(routeController)
-      );
+      app.get(`/${routeName}/:id`, routeController.show.bind(routeController));
     }
     if (routeController.edit !== undefined) {
-      app.get(
-        `/${routeName}/:id/edit`,
-        routeController.edit.bind(routeController)
-      );
+      app.get(`/${routeName}/:id/edit`, routeController.edit.bind(routeController));
     }
+    // Actions (redirect to page)
     if (routeController.createAction !== undefined) {
-      app.post(
-        `/${routeName}`,
-        routeController.createAction.bind(routeController)
-      );
+      app.post(`/${routeName}`, routeController.createAction.bind(routeController));
     }
     if (routeController.updateAction !== undefined) {
-      app.put(
-        `/${routeName}/:id`,
-        routeController.updateAction.bind(routeController)
-      );
+      app.put(`/${routeName}/:id`, routeController.updateAction.bind(routeController));
     }
     if (routeController.destroyAction !== undefined) {
-      app.delete(
-        `/${routeName}/:id`,
-        routeController.destroyAction.bind(routeController)
-      );
+      app.delete(`/${routeName}/:id`, routeController.destroyAction.bind(routeController));
     }
   }
   // See all registered routes (for debugging)

@@ -1,14 +1,13 @@
 const Page = require('./page');
 const { getIdParam } = require('../helpers');
 const { models } = require('../sequelize');
-const http = require('http');
 
 class WishLists extends Page {
   constructor() {
     super()
   }
 
-  // API
+  // API example
   async items(req, res) {
     // We can avoid fetching the WishList object from the DB
     // and instantiate a placeholder with just the ID which we have.
@@ -18,7 +17,7 @@ class WishLists extends Page {
     
     res.status(200).json(objects);
   }
-
+  // API example
   async user(req, res) {
     const wishList = models.WishList.findByPk(getIdParam(req));
     const object = await wishList.getUser(); // Method automatically added by Sequelize

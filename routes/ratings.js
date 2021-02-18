@@ -1,6 +1,8 @@
-const Api = require('./api');
+const Page = require('./page');
+const { getIdParam } = require('../helpers');
+const { models } = require('../sequelize');
 
-class Ratings extends Api {
+class Ratings extends Page {
   constructor() {
     super()
   }

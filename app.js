@@ -21,6 +21,7 @@ const routes = {
 //middleware
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials', function (err) {});
+app.use(express.static(__dirname + '/public'));
 // Parse request in the middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -18,7 +18,7 @@ const routes = {
   wish_lists: require('./routes/wish_lists')
 };
 
-//middleware
+//middleware 
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials', function (err) {});
 app.use(express.static(__dirname + '/public'));

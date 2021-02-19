@@ -1,0 +1,40 @@
+<div class="container ">
+
+    <h2>Shopping Cart</h2>
+
+</br>
+
+
+ <div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Book title</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Deferred</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each shoppingCartItems}}
+                <tr>
+                    <th scope="row">
+                        <a href="">Name of Book</a>
+                    </th>
+                    <td>{{ quantity }}</td>
+                    <td>{{ deferred }}</td>
+                    <td>Price</td>
+                </tr>
+            {{/each}}
+        </tbody>
+     </table>
+ </div>
+
+ <div class="price container">
+      <span><b>Total Price:</b></span>
+ </div>
+ <div>
+    <button class="btn">Checkout</button>
+ </div>
+
+</div>

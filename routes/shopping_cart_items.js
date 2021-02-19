@@ -7,11 +7,15 @@ const router = express.Router();
 class ShoppingCartItems extends Page {
   constructor() {
     // Add custom routes here, before super()...
-
+    // router.get('/shopping-cart',(req,res,next)=>{
+    //   res.render("shoppingCart/index")
+    // })
     super(router);
   }
   
   router() { return router; }
+
+
 
   // Add more api methods here...
 }

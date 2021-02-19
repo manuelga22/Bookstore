@@ -7,9 +7,7 @@ const router = express.Router();
 class WishListItems extends Page {
   constructor() {
     // Add custom routes here, before super()...
-    router.get('/wish-list',(req,res,next)=>{
-      res.render("shoppingCart/shoppingCart")
-    })
+  
     super(router);
   }
   

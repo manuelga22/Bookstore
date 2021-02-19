@@ -40,17 +40,6 @@ app.use(function(req, res, next) {
   next(); 
 });
 
-// We create a wrapper to workaround async errors not being transmitted correctly.
-function makeHandlerAwareOfAsyncErrors(handler) {
-  return async function(req, res, next) {
-    try {
-      await (handler(req, res));
-    } catch (error) {
-      next(error);
-    }
-  };
-}
-
 async function assertDatabaseConnectionOk() {
   console.log(`Checking database connection...`);
   try {
@@ -66,72 +55,20 @@ async function assertDatabaseConnectionOk() {
 async function init() {
   await assertDatabaseConnectionOk();
 
-  // We define the standard REST APIs for each route
+  // Init custom routes in your routes controller by placing them in the constructor()
+  /* (new routeController()) causes the route to trigger its constructor, which
+     triggers the addition of common page and API routes. The router() method returns
+     the route to the middleware. */
   for (let [routeName, routeController] of Object.entries(routes)) {
-    routeController = new routeController()
-    // API
-    if (routeController.all !== undefined) {
-      app.get(
-        `/api/${routeName}`,
-        makeHandlerAwareOfAsyncErrors(routeController.all.bind(routeController))
-      );
-    }
-    if (routeController.find !== undefined) {
-      app.get(
-        `/api/${routeName}/:id`,
-        makeHandlerAwareOfAsyncErrors(routeController.find.bind(routeController))
-      );
-    }
-    if (routeController.create !== undefined) {
-      app.post(
-        `/api/${routeName}`,
-        makeHandlerAwareOfAsyncErrors(routeController.create.bind(routeController))
-      );
-    }
-    if (routeController.update !== undefined) {
-      app.put(
-        `/api/${routeName}/:id`,
-        makeHandlerAwareOfAsyncErrors(routeController.update.bind(routeController))
-      );
-    }
-    if (routeController.destroy !== undefined) {
-      app.delete(
-        `/api/${routeName}/:id`,
-        makeHandlerAwareOfAsyncErrors(routeController.destroy.bind(routeController))
-      );
-    }
-
-    // Pages
-    if (routeController.index !== undefined) {
-      app.get(`/${routeName}`, routeController.index.bind(routeController));
-    }
-    if (routeController.new !== undefined) {
-      app.get(`/${routeName}/new`, routeController.new.bind(routeController));
-    }
-    if (routeController.show !== undefined) {
-      app.get(`/${routeName}/:id`, routeController.show.bind(routeController));
-    }
-    if (routeController.edit !== undefined) {
-      app.get(`/${routeName}/:id/edit`, routeController.edit.bind(routeController));
-    }
-    // Actions (redirect to page)
-    if (routeController.createAction !== undefined) {
-      app.post(`/${routeName}`, routeController.createAction.bind(routeController));
-    }
-    if (routeController.updateAction !== undefined) {
-      app.put(`/${routeName}/:id`, routeController.updateAction.bind(routeController));
-    }
-    if (routeController.destroyAction !== undefined) {
-      app.delete(`/${routeName}/:id`, routeController.destroyAction.bind(routeController));
-    }
+    app.use('/', (new routeController()).router());
   }
+
   // See all registered routes (for debugging)
   app.get('/routes', (req, res) => {
     res.send(app._router.stack
         .filter(r => r.route) 
         .map(r => r.route.path))
   })
-  
 
   // get and post routes
   const homeRoutes = require("./routes/homeRoutes")
@@ -139,8 +76,6 @@ async function init() {
 
   const userRoutes = require("./routes/userRoutes")
   app.use('/', userRoutes)
-
-  // We can define more routes if necessary
 
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

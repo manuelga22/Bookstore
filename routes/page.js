@@ -6,10 +6,25 @@ const { singularize } = require('sequelize/lib/utils');
 const axios = require('axios');
 
 class Page extends Api {
-  constructor() {
-    super();
+  constructor(router) {
+    super(router);
     this.baseUrl = "http://localhost:3000";
     this.resourceName = humps.decamelize(this.constructor.name);
+    this.initPageRoutes(router);
+  }
+
+  initPageRoutes(router) {
+    // Creates routes for all common RESTful page methods
+    router.get(`/${this.resourceName}`, this.index.bind(this));
+    router.get(`/${this.resourceName}/new`, this.new.bind(this));
+    router.get(`/${this.resourceName}/:id`, this.show.bind(this));
+    router.get(`/${this.resourceName}/:id/edit`, this.edit.bind(this));
+    // Creates routes for all common RESTful action methods
+    router.post(`/${this.resourceName}`, this.createAction.bind(this));
+    router.put(`/${this.resourceName}/:id`, this.updateAction.bind(this));
+    router.delete(`/${this.resourceName}/:id`, this.destroyAction.bind(this));
+
+    return router;
   }
 
   // Common pages
@@ -189,4 +204,4 @@ class Page extends Api {
   }
 }
 
-module.exports = Page
+module.exports = Page;

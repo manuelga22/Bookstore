@@ -51,6 +51,10 @@ async function reset() {
     { WishListId: 2, BookId: 2, UserId: 1 },
   ]);
 
+  await sequelize.models.Rating.bulkCreate([
+    { score: 1, comment: "Cool book", UserId: 1, BookId: 1, anonymous: false }
+  ]);
+
   console.log('Done!');
 }
 

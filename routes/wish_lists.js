@@ -1,11 +1,20 @@
 const Page = require('./page');
 const { getIdParam } = require('../helpers');
 const { models } = require('../sequelize');
+const express = require('express');
+const router = express.Router();
 
 class WishLists extends Page {
   constructor() {
-    super()
+    // Add custom routes here, before super()...
+    router.get('/wish_lists/test', (req, res, next) => {
+      res.render('wishLists/test');
+    });
+    
+    super(router);
   }
+
+  router() { return router; }
 
   // API example
   async items(req, res) {

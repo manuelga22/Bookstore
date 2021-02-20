@@ -30,6 +30,31 @@ async function reset() {
     });
   }
 
+  await sequelize.models.User.bulkCreate([
+    {
+      firstName: 'Orlando',
+      lastName: "de Frias",
+      username: "odefrias",
+      password: "password",
+      email: "odefr001@fiu.edu",
+      address: "123 Main Street"
+    }
+  ]);
+
+  await sequelize.models.WishList.bulkCreate([
+    { name: 'My First List', UserId: 1 },
+    { name: 'My Second List', UserId: 1 }
+  ]);
+
+  await sequelize.models.WishListItem.bulkCreate([
+    { WishListId: 1, BookId: 1, UserId: 1 },
+    { WishListId: 2, BookId: 2, UserId: 1 },
+  ]);
+
+  await sequelize.models.Rating.bulkCreate([
+    { score: 1, comment: "Cool book", UserId: 1, BookId: 1, anonymous: false }
+  ]);
+
   console.log('Done!');
 }
 

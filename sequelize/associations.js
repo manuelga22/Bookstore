@@ -42,6 +42,13 @@ function applyAssociations(sequelize) {
   WishListItem.belongsTo(Book);
   WishListItem.belongsTo(WishList);
 
+  /*
+    A "Super Many-to-Many relationship" which allows deeply-nested
+    includes and eager loading.
+  */
+  Book.belongsToMany(WishList, { through: WishListItem });
+  WishList.belongsToMany(Book, { through: WishListItem });
+
   WishList.belongsTo(User);
   WishList.hasMany(WishListItem);
 }

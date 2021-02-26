@@ -48,13 +48,13 @@ class Page extends Api {
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/show`,
-        {
+        Object.assign({
           [humps.camelize(singularize(this.constructor.name))]: success.data,
           urls: {
             edit: this.editPageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
-        }
+        }, customObject)
       );
     }, (error) => {
       console.error(error);
@@ -64,12 +64,12 @@ class Page extends Api {
   new(req, res, customObject = {}) {
     res.render(
       `${this.constructor.name}/new`,
-      {
+      Object.assign({
         urls: {
           index: this.indexPageUrl(),
           create: this.createPageUrl()
         }
-      }
+      }, customObject)
     );
   }
 
@@ -77,14 +77,14 @@ class Page extends Api {
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/edit`,
-        {
+        Object.assign({
           [humps.camelize(singularize(this.constructor.name))]: success.data,
           urls: {
             show: this.showPageUrl(req.params.id),
             update: this.updatePageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
-        }
+        }, customObject)
       );
     }, (error) => {
       console.error(error);

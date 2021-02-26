@@ -28,23 +28,23 @@ class Page extends Api {
   }
 
   // Common pages
-  index(req, res) {
+  index(req, res, customObject = {}) {
     this.get(this.allApiUrl(), (success) => {
       res.render(
         `${this.constructor.name}/index`,
-        {
+        Object.assign({
           [humps.camelize(this.constructor.name)]: success.data,
           urls: {
             new: this.newPageUrl()
           }
-        }
+        }, customObject)
       );
     }, (error) => {
       console.error(error);
     });
   }
   
-  show(req, res) {
+  show(req, res, customObject = {}) {
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/show`,
@@ -61,7 +61,7 @@ class Page extends Api {
     });
   }
 
-  new(req, res) {
+  new(req, res, customObject = {}) {
     res.render(
       `${this.constructor.name}/new`,
       {
@@ -73,7 +73,7 @@ class Page extends Api {
     );
   }
 
-  edit(req, res) {
+  edit(req, res, customObject = {}) {
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/edit`,

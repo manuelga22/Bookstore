@@ -13,6 +13,16 @@ class WishLists extends Page {
 
   router() { return router; }
 
+  // Example of how to pass a custom object to a common page route
+  index(req, res) {
+    super.index(req, res, {
+      message: "Hello world",
+      another_object: {
+        message: "Hello again"
+      }
+    });
+  }
+
   // API example
   async items(req, res) {
     // We can avoid fetching the WishList object from the DB

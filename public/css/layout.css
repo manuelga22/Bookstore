@@ -1,7 +1,7 @@
 .nav-bar-style{
     background: #CB6363 !important;
 }
-.nav-bar-style>a,div>ul>li>a{
+.nav-bar-style>a, .nav-item a.nav-link {
 
     color:white !important;
     font-weight: bold;

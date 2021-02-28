@@ -30,15 +30,7 @@ class Page extends Api {
   // Common pages
   index(req, res) {
     this.get(this.allApiUrl(), (success) => {
-      res.render(
-        `${this.constructor.name}/index`,
-        {
-          [humps.camelize(this.constructor.name)]: success.data,
-          urls: {
-            new: this.newPageUrl()
-          }
-        }
-      );
+      res.render(`${this.constructor.name}/index`,{[humps.camelize(this.constructor.name)]: success.data, urls: {new: this.newPageUrl()}});
     }, (error) => {
       console.error(error);
     });

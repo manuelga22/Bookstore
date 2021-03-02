@@ -21,11 +21,14 @@
                                 <div class="col-8"><h5 class="card-title">{{title}}</h5>
                                 <p class="card-text">Price: {{price}}$</p></div>
                                 <div class="col-4">
-                                    <form type="submit" method= "POST" action="/EDIT/{{id}}">
+                                    <form type="submit" method= "POST" action="/edit/{{id}}">
                                        <div class="row">
                                          <input type="number" class="count col" name="qty" value="{{quantity}}" min="1" >
                                          <button class="btn col">Edit</button>
                                        </div>
+                                    </form>
+                                    <form class ="float-left" type="submit" method="POST" action="/delete/{{id}}">
+                                        <button type="submit" class="btn btn-link ">Remove item</button>
                                     </form>
                                 </div>
                             </div>
@@ -39,6 +42,7 @@
         </div>
         <div class="col-4">
             <div class="container">
+                <div class="row"><h3>Checkout Total:</h3></div>
                 <div class="price row">
                     <span>
                         <b>Total Price: {{totalCheckoutPrice}}</b>

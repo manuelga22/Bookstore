@@ -7,8 +7,14 @@ const router = express.Router();
 class ShoppingCartItems extends Page {
   constructor() {
     // Add custom routes here, before super()...
-    router.post("/edit/:id",()=>{
-
+    // router.post("/edit/:id",()=>{
+    //   this.edit
+    // })
+    router.post("/delete/:id",(req,res)=>{
+      this.deleteItemInshoppingCart(req,res).then((message)=>{
+         console.log(message)
+         res.status(200).send(message)
+      }).catch((err)=>console.log(err))
     })
     
     super(router);
@@ -54,7 +60,7 @@ class ShoppingCartItems extends Page {
 
 
       this.post(this.findApiUrl(req.params.id), async(success) => {
-        await ShoppingCartItem.update({ quantity: form.qty }, {
+        await models.ShoppingCartItem.update({ quantity: form.qty }, {
           where: {
             id: id
           }
@@ -66,9 +72,10 @@ class ShoppingCartItems extends Page {
 
   };
   async deleteItemInshoppingCart(req,res){
-    await ShoppingCartItem.destroy({
+    const itemId = req.params.id
+    await models.ShoppingCartItem.destroy({
       where: {
-        id: id
+        id: itemId
       }
     });
      res.status(200).end()

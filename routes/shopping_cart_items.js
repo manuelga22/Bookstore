@@ -6,10 +6,13 @@ const router = express.Router();
 
 class ShoppingCartItems extends Page {
   constructor() {
-    // Add custom routes here, before super()...
-    // router.post("/edit/:id",()=>{
-    //   this.edit
-    // })
+    
+    router.post("/edit/:id",(req,res)=>{
+      this.editQuantity(req,res).then((message)=>{
+        console.log(message)
+        res.status(200).send(message)
+     }).catch((err)=>console.log(err))
+    })
     router.post("/delete/:id",(req,res)=>{
       this.deleteItemInshoppingCart(req,res).then((message)=>{
          console.log(message)
@@ -45,7 +48,7 @@ class ShoppingCartItems extends Page {
             deferred : allItemsInShoppingCart[i].deferred,
             id: allItemsInShoppingCart[i].id
           } 
-          totalCheckoutPrice += booksInShoppingCart[i].price
+          totalCheckoutPrice += (booksInShoppingCart[i].price*allItemsInShoppingCart[i].quantity)
         }
         //add WHERE after for user
         res.render(`${this.constructor.name}/index`,{shopping_items: booksInShoppingCart, totalCheckoutPrice});
@@ -54,23 +57,19 @@ class ShoppingCartItems extends Page {
         res.status(204).json({message: "No items were found in you Shopping Cart"})
       });
   };
-  async edit(req,res){
+
+  async editQuantity(req,res){
       const id = req.params.id;
-      const form = request.body
+      const form = req.body
 
-
-      this.post(this.findApiUrl(req.params.id), async(success) => {
-        await models.ShoppingCartItem.update({ quantity: form.qty }, {
-          where: {
-            id: id
-          }
-        });
-        res.status(200).json({message:success})
-      }, (error) => {
-        console.error(error);
-      });
-
+      await models.ShoppingCartItem.update({ quantity: form.qty }, {
+        where: {
+          id: id
+        }
+      })
+      res.status(200).redirect("/shopping_cart_items");
   };
+
   async deleteItemInshoppingCart(req,res){
     const itemId = req.params.id
     await models.ShoppingCartItem.destroy({
@@ -78,7 +77,7 @@ class ShoppingCartItems extends Page {
         id: itemId
       }
     });
-     res.status(200).end()
+    res.status(200).redirect("/shopping_cart_items");
   };
 }
 

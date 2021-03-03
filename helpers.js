@@ -9,4 +9,13 @@ function getIdParam(request) {
   throw new TypeError(`:id param "${id}" must be an integer`);
 }
 
-module.exports = { getIdParam };
+function assignFlash(request, object) {
+  if (request.query.success) {
+    Object.assign(object, {success: request.query.success});
+  }
+  if (request.query.danger) {
+    Object.assign(object, {danger: request.query.danger});
+  }
+}
+
+module.exports = { getIdParam, assignFlash };

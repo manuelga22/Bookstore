@@ -4,6 +4,7 @@ const { models } = require('../sequelize');
 const humps = require('humps');
 const { singularize } = require('sequelize/lib/utils');
 const axios = require('axios');
+const { assignFlash } = require('../helpers');
 
 class Page extends Api {
   constructor(router) {
@@ -29,6 +30,7 @@ class Page extends Api {
 
   // Common pages
   index(req, res, customObject = {}) {
+    assignFlash(req, customObject);
     this.get(this.allApiUrl(), (success) => {
       res.render(
         `${this.constructor.name}/index`,
@@ -45,6 +47,7 @@ class Page extends Api {
   }
   
   show(req, res, customObject = {}) {
+    assignFlash(req, customObject);
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/show`,
@@ -62,6 +65,7 @@ class Page extends Api {
   }
 
   new(req, res, customObject = {}) {
+    assignFlash(req, customObject);
     res.render(
       `${this.constructor.name}/new`,
       Object.assign({
@@ -74,6 +78,7 @@ class Page extends Api {
   }
 
   edit(req, res, customObject = {}) {
+    assignFlash(req, customObject);
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/edit`,

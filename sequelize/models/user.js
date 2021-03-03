@@ -44,8 +44,16 @@ module.exports = (sequelize) => {
   });
 
   // One way to add more functions
-  sequelize.models.User.prototype.withListsCount = function() {
+  sequelize.models.User.prototype.wishListsCount = function() {
     return sequelize.models.WishList.count({
+      where: {
+        UserId: this.id
+      }
+    })
+  }
+
+  sequelize.models.User.prototype.wishLists = function() {
+    return sequelize.models.WishList.findAll({
       where: {
         UserId: this.id
       }

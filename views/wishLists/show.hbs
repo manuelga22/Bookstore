@@ -7,10 +7,20 @@
   
   <div>
     <h3>Books in your list:</h3>
-    <ul class="list-group">
-    {{#each books}}
-      <li class="list-group-item"><a href="/books/{{id}}">{{title}}</a></li>
-    {{/each}}
-  </ul>
+    <div class="row">
+      {{#each items}}
+        <div class="col-sm-6">
+          <div class="card">
+            <img class="card-img-top" src="{{Book.coverUrl}}" alt="{{Book.title}}">
+            <div class="card-body">
+              <h5 class="card-title">{{Book.title}}</h5>
+              <p class="card-text">{{Book.description}}</p>
+              <a href="/books/{{Book.id}}" class="btn btn-primary">View Book</a>
+              <a href="/wish_list_items/{{id}}?_method=DELETE" class="btn btn-link text-danger">Remove From Wish List</a>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
   </div>
 </div>

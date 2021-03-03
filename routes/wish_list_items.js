@@ -14,6 +14,13 @@ class WishListItems extends Page {
   router() { return router; }
 
   // Add more api methods here...
+  destroyAction(req, res) {
+    this.delete(this.destroyApiUrl(req.params.id), (success) => {
+      res.redirect(`/wish_lists/${req.params.id}?success=Book has been removed from your wish list.`);
+    }, (error) => {
+      console.error(error);
+    });
+  }
 }
 
 module.exports = WishListItems

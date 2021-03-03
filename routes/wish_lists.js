@@ -3,12 +3,17 @@ const { getIdParam } = require('../helpers');
 const { models } = require('../sequelize');
 const express = require('express');
 const router = express.Router();
+const pluralize = require('pluralize');
 
 class WishLists extends Page {
   constructor() {
     // Add custom routes here, before super()...
     
     super(router);
+
+    // Placeholder for singleton while waiting to merging William's branch
+    this.currentUser = models.User.build({id: 1, username: "Orlando"});
+    this.maxWishListCount = 3;
 
     // API methods
     router.get("/api/wish_lists/:id/items", this.items.bind(this));
@@ -20,26 +25,51 @@ class WishLists extends Page {
   index(req, res) {
     super.index(req, res, {
       message: "Hello world",
+      user: this.currentUser,
       another_object: {
         message: "Hello again"
       }
     });
   }
 
-  show(req, res) {
-    this.get(this.itemsApiUrl(req.params.id), (success) => {
-      var books = [];
-      success.data.forEach(function(item) {
-        books.push(item.Book);
-      });
-      
-      super.show(req, res, {books: books});
+  new(req, res) {
+    this.get(this.userWishListsApiUrl(this.currentUser.id), (success) => {
+      const wishListCount = success.data.length;
+      // Validate number of allowed wish lists
+      if (wishListCount >= this.maxWishListCount) {
+        res.redirect(`/wish_lists?danger=You are only allowed to create ${pluralize('wish list', this.maxWishListCount, true)}.`);
+      } else {
+        super.new(req, res);
+      }
     }, (error) => {
       console.error(error);
     });
   }
 
-  // API example
+  show(req, res) {
+    this.get(this.itemsApiUrl(req.params.id), (success) => {
+      var items = [];
+      success.data.forEach(function(item) {
+        items.push(item);
+      });
+      
+      super.show(req, res, {items: items});
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
+  createAction(req, res) {
+    req.body.wishList.UserId = this.currentUser.id;
+    super.createAction(req, res);
+  }
+
+  // Limit wish lists for the logged in user only
+  async all(req, res) {
+    const objects = await models.WishList.findAll({where: {UserId: this.currentUser.id}});
+    res.status(200).json(objects);
+  }
+
   async items(req, res) {
     // We can avoid fetching the WishList object from the DB
     // and instantiate a placeholder with just the ID which we have.
@@ -60,6 +90,9 @@ class WishLists extends Page {
   // URLs
   itemsApiUrl(id) {
     return `${this.baseUrl}/api/wish_lists/${id}/items`;
+  }
+  userWishListsApiUrl(id) {
+    return `${this.baseUrl}/api/users/${id}/wish_lists`;
   }
 }
 

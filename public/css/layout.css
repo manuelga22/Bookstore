@@ -3,10 +3,19 @@
 }
 .nav-bar-style>a,div>ul>li>a{
 
-    color:white !important;
+    color:black !important;
     font-weight: bold;
     
 }
 .search-btn{
     /* background:yellow; */
 }
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+img.expanded {
+    max-width: none;
+}
+

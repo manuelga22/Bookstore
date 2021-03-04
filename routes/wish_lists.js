@@ -1,5 +1,5 @@
 const Page = require('./page');
-const { getIdParam } = require('../helpers');
+const { getIdParam, flash } = require('../helpers');
 const { models } = require('../sequelize');
 const express = require('express');
 const router = express.Router();
@@ -32,14 +32,23 @@ class WishLists extends Page {
     });
   }
 
+  edit(req, res) {
+    super.edit(req, res, {
+      user: this.currentUser
+    });
+  }
+
   new(req, res) {
     this.get(this.userWishListsApiUrl(this.currentUser.id), (success) => {
       const wishListCount = success.data.length;
       // Validate number of allowed wish lists
       if (wishListCount >= this.maxWishListCount) {
-        res.redirect(`/wish_lists?danger=You are only allowed to create ${pluralize('wish list', this.maxWishListCount, true)}.`);
+        flash(req, {danger: `You are only allowed to create ${pluralize('wish list', this.maxWishListCount, true)}.`});
+        res.redirect(`/wish_lists`);
       } else {
-        super.new(req, res);
+        super.new(req, res, {
+          user: this.currentUser
+        });
       }
     }, (error) => {
       console.error(error);
@@ -53,12 +62,16 @@ class WishLists extends Page {
         items.push(item);
       });
       
-      super.show(req, res, {items: items});
+      super.show(req, res, {
+        items: items,
+        user: this.currentUser
+      });
     }, (error) => {
       console.error(error);
     });
   }
 
+  // Overwrite method in page.js so the current user's ID is included in the request
   createAction(req, res) {
     req.body.wishList.UserId = this.currentUser.id;
     super.createAction(req, res);

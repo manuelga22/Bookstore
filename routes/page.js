@@ -4,7 +4,6 @@ const { models } = require('../sequelize');
 const humps = require('humps');
 const { singularize } = require('sequelize/lib/utils');
 const axios = require('axios');
-const { assignFlash } = require('../helpers');
 
 class Page extends Api {
   constructor(router) {
@@ -30,7 +29,6 @@ class Page extends Api {
 
   // Common pages
   index(req, res, customObject = {}) {
-    assignFlash(req, customObject);
     this.get(this.allApiUrl(), (success) => {
       res.render(
         `${this.constructor.name}/index`,
@@ -39,15 +37,15 @@ class Page extends Api {
           urls: {
             new: this.newPageUrl()
           }
-        }, customObject)
+        }, req.session.flash, customObject)
       );
+      req.session.flash = {};
     }, (error) => {
       console.error(error);
     });
   }
   
   show(req, res, customObject = {}) {
-    assignFlash(req, customObject);
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/show`,
@@ -57,15 +55,15 @@ class Page extends Api {
             edit: this.editPageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
-        }, customObject)
+        }, req.session.flash, customObject)
       );
+      req.session.flash = {};
     }, (error) => {
       console.error(error);
     });
   }
 
   new(req, res, customObject = {}) {
-    assignFlash(req, customObject);
     res.render(
       `${this.constructor.name}/new`,
       Object.assign({
@@ -73,12 +71,12 @@ class Page extends Api {
           index: this.indexPageUrl(),
           create: this.createPageUrl()
         }
-      }, customObject)
+      }, req.session.flash, customObject)
     );
+    req.session.flash = {};
   }
 
   edit(req, res, customObject = {}) {
-    assignFlash(req, customObject);
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/edit`,
@@ -89,8 +87,9 @@ class Page extends Api {
             update: this.updatePageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
-        }, customObject)
+        }, req.session.flash, customObject)
       );
+      req.session.flash = {};
     }, (error) => {
       console.error(error);
     });

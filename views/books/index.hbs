@@ -1,0 +1,32 @@
+<div class="books container">
+    <h1>Books Available</h1>
+
+    <table class="table">
+        <tr>
+            <th>Book Title</th>
+            <th>Author</th>
+            <th>Cost</th>
+            <th>Publisher</th>
+            <th>Book Cover</th>
+        </tr>
+        
+        {{#each books}}
+        <tr>
+            <td>{{title}}</td>
+            <td>{{Author.name}}</td>
+            <td>
+                <script type="text/javascript">
+                    var dollar_cost = {{priceCents}} / 100
+                    document.write('$' + dollar_cost.toFixed(2))
+                </script>
+            </td>
+            <td>{{publisher}}</td>
+            <td><a href={{coverUrl}}><img src={{coverUrl}} border =2 height =100 width = 100></td>
+            <td><button class="btn">Add to cart</button></td>
+        {{/each}}
+        </tr>
+    </table>
+</div>
+
+
+

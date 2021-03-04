@@ -8,6 +8,7 @@
             <th>Cost</th>
             <th>Publisher</th>
             <th>Book Cover</th>
+            <th></th>
         </tr>
         
         {{#each books}}
@@ -22,7 +23,9 @@
             </td>
             <td>{{publisher}}</td>
             <td><a href={{coverUrl}}><img src={{coverUrl}} border =2 height =100 width = 100></td>
-            <td><button class="btn">Add to cart</button></td>
+            <td>
+                <button class="btn">Add to cart</button><
+            /td>
         {{/each}}
         </tr>
     </table>

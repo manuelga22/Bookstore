@@ -3,6 +3,7 @@ const { getIdParam, flash } = require('../helpers');
 const { models } = require('../sequelize');
 const express = require('express');
 const router = express.Router();
+const strftime = require('strftime');
 const pluralize = require('pluralize');
 
 class WishLists extends Page {
@@ -24,11 +25,7 @@ class WishLists extends Page {
   // Example of how to pass a custom object to a common page route
   index(req, res) {
     super.index(req, res, {
-      message: "Hello world",
-      user: this.currentUser,
-      another_object: {
-        message: "Hello again"
-      }
+      user: this.currentUser
     });
   }
 
@@ -74,12 +71,22 @@ class WishLists extends Page {
   // Overwrite method in page.js so the current user's ID is included in the request
   createAction(req, res) {
     req.body.wishList.UserId = this.currentUser.id;
+    flash(req, {success: "Wish list has been successfully created."});
     super.createAction(req, res);
+  }
+
+  destroyAction(req, res) {
+    flash(req, {success: "Wish list has been successfully removed."});
+    super.destroyAction(req, res);
   }
 
   // Limit wish lists for the logged in user only
   async all(req, res) {
-    const objects = await models.WishList.findAll({where: {UserId: this.currentUser.id}});
+    const objects = await models.WishList.findAll({where: {UserId: this.currentUser.id}, include: models.WishListItem});
+    // Inject a humanized count of books for hbs
+    objects.forEach(function(object, index) {
+      object.dataValues.countDecorated = `${pluralize('book', object.WishListItems.length, true)}`;
+    });
     res.status(200).json(objects);
   }
 
@@ -89,7 +96,12 @@ class WishLists extends Page {
     // It's the only bit needed to query the DB for items.
     const wishList = models.WishList.build({id: getIdParam(req)});
     const objects = await wishList.getWishListItems({include: models.Book}); // Method automatically added by Sequelize
-    
+
+    // Inject a humanized version of the date for hbs
+    objects.forEach(function(object, index) {
+      object.dataValues.createdAtDecorated = strftime('%b %d, %Y at %H:%M %P', object.createdAt);
+    });
+
     res.status(200).json(objects);
   }
   // API example

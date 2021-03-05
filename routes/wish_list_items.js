@@ -16,7 +16,8 @@ class WishListItems extends Page {
   // Add more api methods here...
   destroyAction(req, res) {
     this.delete(this.destroyApiUrl(req.params.id), (success) => {
-      res.redirect(`/wish_lists/${req.params.id}?success=Book has been removed from your wish list.`);
+      flash(req, {success: "Book has been removed from your wish list."});
+      res.redirect(`/wish_lists/${req.params.id}`);
     }, (error) => {
       console.error(error);
     });

@@ -1,6 +1,32 @@
 {{#if success}}
-  <div class="alert alert-success">{{success}}</div>
+  <div class="alert alert-success">
+    {{success}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 {{/if}}
 {{#if danger}}
-  <div class="alert alert-danger">{{danger}}</div>
+  <div class="alert alert-danger">
+    {{danger}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{{/if}}
+{{#if info}}
+  <div class="alert alert-info">
+    {{info}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{{/if}}
+{{#if warning}}
+  <div class="alert alert-warning">
+    {{warning}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 {{/if}}

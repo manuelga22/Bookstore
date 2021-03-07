@@ -19,3 +19,22 @@ img.expanded {
     max-width: none;
 }
 
+.book-container {
+    width: 96%;
+    margin: 20px auto;
+}
+
+.book-test {
+    width: 48%;
+    float: left;
+}
+
+.modal-body {
+    align-content: right;
+}
+
+.charNum {
+    margin-top: -6rem;
+    margin-bottom: 2rem;
+    margin-left: 20rem;
+}

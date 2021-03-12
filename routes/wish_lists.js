@@ -75,6 +75,12 @@ class WishLists extends Page {
     super.createAction(req, res);
   }
 
+  updateAction(req, res) {
+    req.body.wishList.UserId = this.currentUser.id;
+    flash(req, {success: "Wish list has been successfully updated."});
+    super.updateAction(req, res);
+  }
+
   destroyAction(req, res) {
     flash(req, {success: "Wish list has been successfully removed."});
     super.destroyAction(req, res);

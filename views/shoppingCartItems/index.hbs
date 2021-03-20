@@ -1,48 +1,70 @@
-<div class="container pt-3">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="container-fluid pt-3">
+
+    {{#if msg}}
+    <div class="alert alert-success" role="alert">
+         {{msg}}
+    </div>
+    {{/if}}
+  
 
 
-    <div class="row ">
+    <div class="row d-flex justify-content-center">
         <h2>Shopping Cart</h2>
     </div>
 
 
-    <div class="row pt-3">
-        <div class="col-8">
+    <div class="row pt-3 justify-content-center">
+        <div class="col-lg-7 col-sm-12">
 
+            {{#if shopping_items}}
             {{#each shopping_items}}
             <div class="row card mb-3">
                 <div class="row g-0">
                     <div class="col-md-2 col-lg-2 col-sm-2 ">
-                        <img src="..." alt="">
+                        <img src="" alt="">
                     </div>
-                    <div class="col-md-8 col-lg-8">
+                    <div class="col-md-8 col-lg-10">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-8"><h5 class="card-title">{{title}}</h5>
                                 <p class="card-text">Price: {{price}}$</p></div>
-                                <div class="col-4">
-                                    <form type="submit" method="POST" action="/edit/{{id}}">
-                                       <div class="row">
-                                         <input type="number" class="count col" name="qty" value="{{quantity}}" min="1" >
-                                         <button class="btn col">Edit</button>
-                                       </div>
-                                    </form>
-                                    <form class ="float-left" type="submit" method="POST" action="/delete/{{id}}">
-                                        <button type="submit" class="btn btn-link ">Remove item</button>
-                                    </form>
+                                <div class="col-4">                                  
+                                    <div class="row quantity-form-wrapper" >
+                                         {{!-- Toggle --}}
+                                         <span class ="quantity-span-shoppingcart"id="quantitySpan{{id}}">x{{quantity}}</span>
+                                         <button class="btn btn-link editBtn" id="editBtn{{id}}"  data-request="edit" data-action="/edit/{{id}}">Edit</button>
+                                         {{!-- Toggle --}}
+                                         <form id="edit-form-shoppingcart"method="post" action="/edit/{{id}}" style="display:none">
+                                            <input type="number" class="count col" name="qty" value="{{quantity}}" min="1" > 
+                                            <button type="submit">submit</button>      
+                                         </form>
+                                         <button class="btn btn-link editBtn"  data-request="edit" data-action="/edit/{{id}}" style="display:none">Cancel</button>
+                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-request="delete" data-action="/delete/{{id}}">Delete</button>
+                                    </div>
                                 </div>
                             </div>
-                        
                         </div>
                     </div>
                 </div>
             </div>
             {{/each}}
+            {{else}}
+                <div class="row">
+                    No items found in your shopping cart
+                </div>
+            {{/if}}
+
 
         </div>
-        <div class="col-4">
-            <div class="container">
+        <div class="col-lg-4 col-sm-12 checkout-total-shoppingcart ">
+            <div class="container d-flex flex-column align-items-center">
                 <div class="row"><h3>Checkout Total:</h3></div>
+                <div class="row checkout-list">
+                   {{#each shopping_items}}
+                      <p>--{{title}} x{{quantity}}</p>
+                   {{/each}}
+                </div>
                 <div class="price row">
                     <span>
                         <b>Total Price: {{totalCheckoutPrice}}</b>
@@ -55,11 +77,45 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form  class="modal-form-request" method="post" action="">
+             <button type="submit" class="btn btn-primary">YES!</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    .checkout-list{
+       border:solid black 2px;
+       border-radius:4px;
+       box-shadow: 5px;
+       padding:0.5em;
+    }
+    .quantity-span-shoppingcart{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    #edit-form-shoppingcart{
+       display:flex;
+    }
+    .checkout-total-shoppingcart>div>*{
+        margin-bottom:0.5em;
+    }
+</style>
+
+<script src="/js/shopingcart.js"></script>

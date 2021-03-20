@@ -3,7 +3,10 @@ const sequelize = require('./sequelize')
 const hbs = require('hbs')
 const app = express()
 const port = 3000
+const session = require('express-session');
+var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 
 // Collection of all predefined route methods
 const routes = {
@@ -25,6 +28,20 @@ app.use(express.static(__dirname + '/public'));
 // Parse request in the middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//app.use(cookieParser('secret'));
+app.use(session({ 
+  secret:'geeksforgeeks', 
+  saveUninitialized: true, 
+  resave: true
+})); 
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.msg = req.flash('error')
+  next();
+});
+
 
 // We do this so we can A) use PUT/DELETE in browser that don't support it
 // and B) so we can create links to delete records (e.g. /wish_lists/:id?_method=DELETE)

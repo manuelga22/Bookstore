@@ -10,13 +10,11 @@ class ShoppingCartItems extends Page {
     router.post("/edit/:id",(req,res)=>{
       this.editQuantity(req,res).then((message)=>{
         console.log(message)
-        res.status(200).send(message)
      }).catch((err)=>console.log(err))
     })
     router.post("/delete/:id",(req,res)=>{
       this.deleteItemInshoppingCart(req,res).then((message)=>{
          console.log(message)
-         res.status(200).send(message)
       }).catch((err)=>console.log(err))
     })
     
@@ -27,6 +25,7 @@ class ShoppingCartItems extends Page {
 
   async index(req,res){
       this.get(this.allApiUrl(), async() => {
+        
         //get all items from shopping cart
         const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
         let totalCheckoutPrice = 0;
@@ -51,10 +50,9 @@ class ShoppingCartItems extends Page {
           totalCheckoutPrice += (booksInShoppingCart[i].price*allItemsInShoppingCart[i].quantity)
         }
         //add WHERE after for user
-        res.render(`${this.constructor.name}/index`,{shopping_items: booksInShoppingCart, totalCheckoutPrice});
+        res.render(`${this.constructor.name}/index`,{shopping_items: booksInShoppingCart, totalCheckoutPrice,msg:req.flash("message")});
       }, (error) => {
         console.error(error);
-        res.status(204).json({message: "No items were found in you Shopping Cart"})
       });
   };
 
@@ -66,8 +64,10 @@ class ShoppingCartItems extends Page {
         where: {
           id: id
         }
-      })
-      res.status(200).redirect("/shopping_cart_items");
+      }).then((message)=>{
+        req.flash("message","Succesfully updated the item")
+      }).catch((err)=>req.flash("error",err) ) 
+      res.redirect("/shopping_cart_items");
   };
 
   async deleteItemInshoppingCart(req,res){
@@ -76,8 +76,10 @@ class ShoppingCartItems extends Page {
       where: {
         id: itemId
       }
-    });
-    res.status(200).redirect("/shopping_cart_items");
+    }).then((message)=>{
+      req.flash("message","Succesfully deleted the item")
+    }).catch((err)=>req.flash("error",err));
+      res.status(304).redirect("/shopping_cart_items");
   };
 }
 

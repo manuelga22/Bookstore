@@ -6,7 +6,6 @@ const port = 3000
 const session = require('express-session');
 var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const flash = require('connect-flash');
 
 // Collection of all predefined route methods

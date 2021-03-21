@@ -58,11 +58,25 @@ class WishLists extends Page {
       success.data.forEach(function(item) {
         items.push(item);
       });
-      
-      super.show(req, res, {
-        items: items,
-        user: this.currentUser
+
+      this.get(this.userWishListsApiUrl(this.currentUser.id), (wishListsSuccess) => {
+        // Remove the current wish list from the results since we can't transfer to it
+        let wishLists = wishListsSuccess.data.filter(list => (list.id !== parseInt(req.params.id)));
+        
+        super.show(req, res, {
+          items: items,
+          wishLists: wishLists,
+          hasMultipleWishlists: wishLists.length > 0,
+          user: this.currentUser,
+          urls: {
+            edit: this.editPageUrl(req.params.id),
+            delete: this.destroyPageUrl(req.params.id)
+          }
+        });
+      }, (wishListsError) => {
+        console.error(wishListsError);
       });
+      
     }, (error) => {
       console.error(error);
     });

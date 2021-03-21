@@ -9,11 +9,22 @@ class WishListItems extends Page {
     // Add custom routes here, before super()...
   
     super(router);
+
+    // Placeholder for singleton while waiting to merging William's branch
+    this.currentUser = models.User.build({id: 1, username: "Orlando"});
   }
   
   router() { return router; }
 
-  // Add more api methods here...
+  updateAction(req, res) {
+    flash(req, {success: "Book has been successfully transferred."});
+    this.put(this.updateApiUrl(req.params.id), req.body.wishListItem, (success) => {
+      res.redirect(`/wish_lists/${req.body.wishListItem.WishListId}`);
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
   destroyAction(req, res) {
     this.delete(this.destroyApiUrl(req.params.id), (success) => {
       flash(req, {success: "Book has been removed from your wish list."});

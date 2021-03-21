@@ -30,6 +30,7 @@ class Page extends Api {
   // Common pages
   index(req, res, customObject = {}) {
     this.get(this.allApiUrl(), (success) => {
+<<<<<<< HEAD
       res.render(
         `${this.constructor.name}/index`,
         Object.assign({
@@ -40,6 +41,9 @@ class Page extends Api {
         }, req.session.flash, customObject)
       );
       req.session.flash = {};
+=======
+      res.render(`${this.constructor.name}/index`,{[humps.camelize(this.constructor.name)]: success.data, urls: {new: this.newPageUrl()}});
+>>>>>>> origin/manuel/shopping_cart
     }, (error) => {
       console.error(error);
     });

@@ -4,6 +4,53 @@ const hbs = require('hbs')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser');
+var crypto = require('crypto');
+var mysql = require('mysql');
+var session = require("express-session");
+var MySQLStore = require('express-mysql-session')(session);
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+  var userRouter = require('./routes/users.js');
+
+
+  // Create the MySQL connection
+  var connection = mysql.createConnection({
+  host: process.env.SESSIONSDB_HOST,
+  port: process.env.SESSIONSDB_PORT,
+  user: process.env.SESSIONSDB_USER,
+  password: process.env.SESSIONSDB_PASS,
+  database: process.env.SESSIONSDB_DB
+});
+
+var sessionStore = new MySQLStore({
+  checkExpirationInterval: parseInt(process.env.SESSIONSDB_CHECK_EXP_INTERVAL, 10),
+  expiration: parseInt(process.env.SESSIONSDB_EXPIRATION, 10)
+}, connection);
+
+/* Create a cookie that expires in 1 day */
+var expireDate = new Date();
+expireDate.setDate(expireDate.getDate() + 1);
+
+app.use(session({
+  name: 'geek_text',
+  secret: 'interior crocodile alligator',
+  resave: true,
+  saveUninitialized: false
+}));
+
+//Initialize the Passport JS library
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/user', userRouter);
+
+passport.serializeUser(function(user, done) {
+  done(null, {id: user.id, email: user.email, role: user.role});
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, {id: user.id, email: user.email, role: user.role});
+});
 
 // Collection of all predefined route methods
 const routes = {

@@ -30,6 +30,7 @@ class Page extends Api {
   // Common pages
   index(req, res, customObject = {}) {
     this.get(this.allApiUrl(), (success) => {
+
       res.render(
         `${this.constructor.name}/index`,
         Object.assign({
@@ -40,6 +41,7 @@ class Page extends Api {
         }, req.session.flash, customObject)
       );
       req.session.flash = {};
+
     }, (error) => {
       console.error(error);
     });

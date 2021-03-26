@@ -6,7 +6,11 @@ const router = express.Router();
 
 class ShoppingCartItems extends Page {
   constructor() {
-    
+    router.post("/addToShoppingCart",(req,res)=>{
+        this.addItemsToShoppingCart(req,res).then((message)=>{
+          console.log(message)
+        }).catch((err)=>console.log(err))
+    })
     router.post("/edit/:id",(req,res)=>{
       this.editQuantity(req,res).then((message)=>{
         console.log(message)
@@ -26,11 +30,13 @@ class ShoppingCartItems extends Page {
   async index(req,res){
       this.get(this.allApiUrl(), async() => {
         
+        let totalCheckoutPrice = 0;
+        const booksInfo = []
+
         //get all items from shopping cart
         const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
-        let totalCheckoutPrice = 0;
-        //get the names of the books and Price given the the ID of the book
-        const booksInfo = []
+   
+        //get the names of the books and Price given the the ID of the book 
         for(const item of allItemsInShoppingCart){
           const book =  await models.Book.findOne({
             where:{id: item.BookId}
@@ -55,6 +61,26 @@ class ShoppingCartItems extends Page {
         console.error(error);
       });
   };
+  async addItemsToShoppingCart(req,res){
+       const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
+       const items = req.body
+
+
+      for(const book in items){
+         if(allItemsInShoppingCart.includes(book)){
+            //  UPDATE if the item is already in the shopping cart
+         }else{
+            //if item is not in the shopping cart then add it
+             await models.ShoppingCartItem.create({items}).then((message)=>{
+             req.flash("message", "Items have been added to the shopping cart")
+             }).catch((err)=>req.flash("err", "Error while adding items to the shopping cart"))
+          
+         }       
+      }
+       
+       res.redirect("/shopping_Cart_items")
+
+  }
 
   async editQuantity(req,res){
       const id = req.params.id;

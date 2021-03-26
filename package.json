@@ -14,7 +14,9 @@
     "method-override": "^3.0.0",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
-    "sequelize": "^6.5.0"
+    "pluralize": "^8.0.0",
+    "sequelize": "^6.5.0",
+    "strftime": "^0.10.0"
   },
   "devDependencies": {},
   "scripts": {

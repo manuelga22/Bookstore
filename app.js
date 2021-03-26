@@ -3,10 +3,10 @@ const sequelize = require('./sequelize')
 const hbs = require('hbs')
 const app = express()
 const port = 3000
-const session = require('express-session');
 var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
+const session = require('express-session')
 
 // Collection of all predefined route methods
 const routes = {
@@ -28,6 +28,12 @@ app.use(express.static(__dirname + '/public'));
 // Parse request in the middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+  name: 'geek_text',
+  secret: 'interior crocodile alligator',
+  resave: true,
+  saveUninitialized: false
+}));
 
 //app.use(cookieParser('secret'));
 app.use(session({ 

@@ -28,56 +28,70 @@ class Page extends Api {
   }
 
   // Common pages
-  index(req, res) {
+  index(req, res, customObject = {}) {
     this.get(this.allApiUrl(), (success) => {
-      res.render(`${this.constructor.name}/index`,{[humps.camelize(this.constructor.name)]: success.data, urls: {new: this.newPageUrl()}});
+
+      res.render(
+        `${this.constructor.name}/index`,
+        Object.assign({
+          [humps.camelize(this.constructor.name)]: success.data,
+          urls: {
+            new: this.newPageUrl()
+          }
+        }, req.session.flash, customObject)
+      );
+      req.session.flash = {};
+
     }, (error) => {
       console.error(error);
     });
   }
   
-  show(req, res) {
+  show(req, res, customObject = {}) {
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/show`,
-        {
+        Object.assign({
           [humps.camelize(singularize(this.constructor.name))]: success.data,
           urls: {
             edit: this.editPageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
-        }
+        }, req.session.flash, customObject)
       );
+      req.session.flash = {};
     }, (error) => {
       console.error(error);
     });
   }
 
-  new(req, res) {
+  new(req, res, customObject = {}) {
     res.render(
       `${this.constructor.name}/new`,
-      {
+      Object.assign({
         urls: {
           index: this.indexPageUrl(),
           create: this.createPageUrl()
         }
-      }
+      }, req.session.flash, customObject)
     );
+    req.session.flash = {};
   }
 
-  edit(req, res) {
+  edit(req, res, customObject = {}) {
     this.get(this.findApiUrl(req.params.id), (success) => {
       res.render(
         `${this.constructor.name}/edit`,
-        {
+        Object.assign({
           [humps.camelize(singularize(this.constructor.name))]: success.data,
           urls: {
             show: this.showPageUrl(req.params.id),
             update: this.updatePageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
-        }
+        }, req.session.flash, customObject)
       );
+      req.session.flash = {};
     }, (error) => {
       console.error(error);
     });

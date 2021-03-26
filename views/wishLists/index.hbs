@@ -1,11 +1,15 @@
 <div class="wish-lists container">
-  <h1>Wish Lists</h1>
-  
-  <div class="buttons"><a class="btn btn-primary" href="{{urls.new}}">Create a new Wish List</a></div>
-  
+  <div class="header">
+    <h1>Wish Lists</h1>
+    <div class="buttons"><a class="btn btn-primary" href="{{urls.new}}">Create a new Wish List</a></div>
+  </div>
+
   <ul class="list-group">
     {{#each wishLists}}
-      <li class="list-group-item"><a href="/wish_lists/{{id}}">{{name}}</a></li>
+      <li class="list-group-item">
+        <a href="/wish_lists/{{id}}">{{name}}</a>
+        <span class="book-count">{{countDecorated}}</span>
+      </li>
     {{/each}}
   </ul>
 </div>

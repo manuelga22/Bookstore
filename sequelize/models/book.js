@@ -39,6 +39,11 @@ module.exports = (sequelize) => {
     publisher: {
       allowNull: true,
       type: DataTypes.STRING
+    },
+    description: {
+      allowNull: true,
+      type: DataTypes.STRING,
+      unique: true
     }
   });
 };

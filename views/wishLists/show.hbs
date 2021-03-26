@@ -1,8 +1,35 @@
 <div class="wish-lists container">
-  <h1>Wish List: {{wishList.name}}</h1>
-  <div class="buttons">
-    <a class="btn btn-primary" href="{{urls.edit}}">Edit Wish List</a>
-    <a class="btn btn-link text-danger" href="{{urls.delete}}">Delete Wish List</a>
+  <div class="header">
+    <h1>Wish List: {{wishList.name}}</h1>
+    <div class="buttons">
+      <a class="btn btn-primary" href="{{urls.edit}}">Edit Wish List</a>
+      <a class="btn btn-link text-danger" href="{{urls.delete}}">Delete Wish List</a>
+    </div>
   </div>
   
+  <div class="content">
+    <table class="table" border="0">
+      <thead>
+        <tr>
+          <th>Cover</th>
+          <th>Title</th>
+          <th>Date Added</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each items}}
+          <tr>
+            <td><img class="book-cover" src="{{Book.coverUrl}}" alt="{{Book.title}}" /></td>
+            <td><a href="/books/{{Book.id}}">{{Book.title}}</a></td>
+            <td>{{createdAtDecorated}}</td>
+            <td>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+              <a href="/wish_list_items/{{id}}?_method=DELETE" class="btn btn-link text-danger">Remove From List</a>
+            </td>
+          </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>

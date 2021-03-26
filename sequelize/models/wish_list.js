@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 // This function will automatically receive as parameter the Sequelize connection object.
 module.exports = (sequelize) => {
@@ -15,4 +15,12 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING
     }
   });
-};
+  // One way to add more functions
+  sequelize.models.WishList.prototype.items = function() {
+    return sequelize.models.WishListItem.findAll({
+      where: {
+        WishListId: this.id
+      }
+    })
+  }
+}

@@ -1,0 +1,12 @@
+<div class="wish-lists container">
+  <h1>Editing: {{wishList.name}}</h1>
+  
+  <form method="POST" action="{{urls.update}}">
+    <div class="form-group">
+      <label for="wishList_name">Wish List Name</label>
+      <input type="text" class="form-control" id="wishList_name" name="wishList[name]" value="{{wishList.name}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="{{urls.show}}" class="btn btn-link">Cancel</a>
+  </form>
+</div>

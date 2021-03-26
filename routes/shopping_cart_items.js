@@ -1,9 +1,22 @@
-const Api = require('./api');
+const Page = require('./page');
+const { getIdParam, flash } = require('../helpers');
+const { models } = require('../sequelize');
+const express = require('express');
+const router = express.Router();
 
-class ShoppingCartItems extends Api {
+class ShoppingCartItems extends Page {
   constructor() {
-    super()
+    // Add custom routes here, before super()...
+    // router.get('/shopping-cart',(req,res,next)=>{
+    //   res.render("shoppingCart/index")
+    // })
+    super(router);
   }
+  
+  router() { return router; }
+
+
+
   // Add more api methods here...
 }
 

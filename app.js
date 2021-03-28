@@ -10,6 +10,7 @@ const session = require('express-session')
 
 // Collection of all predefined route methods
 const routes = {
+  homeRoutes: require("./routes/homeRoutes"),
   authors: require('./routes/authors'),
   books: require('./routes/books'),
   credit_cards: require('./routes/credit_cards'),
@@ -36,11 +37,7 @@ app.use(session({
 }));
 
 //app.use(cookieParser('secret'));
-app.use(session({ 
-  secret:'geeksforgeeks', 
-  saveUninitialized: true, 
-  resave: true
-})); 
+
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -95,8 +92,8 @@ async function init() {
   })
 
   // get and post routes
-  const homeRoutes = require("./routes/homeRoutes")
-  app.use('/', homeRoutes)
+  // const homeRoutes = require("./routes/homeRoutes")
+  // app.use('/', homeRoutes)
 
   const userRoutes = require("./routes/userRoutes")
   app.use('/', userRoutes)

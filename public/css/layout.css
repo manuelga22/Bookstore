@@ -1,3 +1,6 @@
+body{
+    min-height:90vh;
+}
 .nav-bar-style{
     background: #CB6363 !important;
 }

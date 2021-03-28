@@ -71,10 +71,12 @@ class ShoppingCartItems extends Page {
             //  UPDATE if the item is already in the shopping cart
          }else{
             //if item is not in the shopping cart then add it
-             await models.ShoppingCartItem.create({items}).then((message)=>{
-             req.flash("message", "Items have been added to the shopping cart")
-             }).catch((err)=>req.flash("err", "Error while adding items to the shopping cart"))
-          
+
+             this.upsert(book, {id: book.id})
+             .then((message)=>{
+              req.flash("message", "Items have been added to the shopping cart")
+              }).catch((err)=>req.flash("err", "Error while adding items to the shopping cart"))
+
          }       
       }
        
@@ -107,6 +109,18 @@ class ShoppingCartItems extends Page {
     }).catch((err)=>req.flash("error",err));
       res.status(304).redirect("/shopping_cart_items");
   };
+   //updates or creates a new item
+   upsert(values, condition) {
+    return models.ShoppingCartItem
+        .findOne({ where: condition })
+        .then(function(obj) {
+            // update
+            if(obj)
+                return obj.update(values);
+            // insert
+            return Model.create(values);
+        })
+   };
 }
 
 module.exports = ShoppingCartItems

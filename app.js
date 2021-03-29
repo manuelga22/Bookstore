@@ -10,6 +10,7 @@ const session = require('express-session')
 
 // Collection of all predefined route methods
 const routes = {
+  userRoutes: require("./routes/userRoutes"),
   homeRoutes: require("./routes/homeRoutes"),
   authors: require('./routes/authors'),
   books: require('./routes/books'),

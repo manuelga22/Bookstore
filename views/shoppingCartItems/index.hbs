@@ -1,4 +1,4 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
 <div class="container-fluid pt-3">
 
     {{#if msg}}
@@ -14,7 +14,7 @@
     </div>
 
 
-    <div class="row pt-3 justify-content-center">
+    <div class="row pt-3 justify-content-around">
         <div class="col-lg-7 col-sm-12">
 
             {{#if shopping_items}}
@@ -51,20 +51,22 @@
             {{/each}}
             {{else}}
                 <div class="row">
-                    No items found in your shopping cart
+                    <h3>No items found in your shopping cart</h3>
                 </div>
             {{/if}}
 
 
         </div>
-        <div class="col-lg-4 col-sm-12 checkout-total-shoppingcart ">
+        <div class="col-lg-3 col-sm-12 checkout-total-shoppingcart ">
             <div class="container d-flex flex-column align-items-center">
                 <div class="row"><h3>Checkout Total:</h3></div>
+                {{#if shopping_items}}
                 <div class="row checkout-list">
                    {{#each shopping_items}}
-                      <p>--{{title}} x{{quantity}}</p>
+                      <span><p>--{{title}} x{{quantity}}</p></span>
                    {{/each}}
                 </div>
+                {{/if}}
                 <div class="price row">
                     <span>
                         <b>Total Price: {{totalCheckoutPrice}}</b>
@@ -100,8 +102,7 @@
 </div>
 <style>
     .checkout-list{
-       border:solid black 2px;
-       border-radius:4px;
+
        box-shadow: 5px;
        padding:0.5em;
     }
@@ -112,6 +113,11 @@
     }
     #edit-form-shoppingcart{
        display:flex;
+    }
+    .checkout-total-shoppingcart{
+        padding: 1em;
+        border: solid black 2px;
+        border-radius: 2em;
     }
     .checkout-total-shoppingcart>div>*{
         margin-bottom:0.5em;

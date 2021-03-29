@@ -1,5 +1,5 @@
-body{
-    min-height:90vh;
+.body{
+    min-height:80vh !important;
 }
 .nav-bar-style{
     background: #CB6363 !important;

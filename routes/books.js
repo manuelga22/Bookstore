@@ -19,6 +19,12 @@ class Books extends Page {
     const books = await models.Book.findAll({include: models.Author});
     res.status(200).json(books);
   };
+
+  async find(req, res) {
+    const id = getIdParam(req);
+    const book = await models.Book.findOne({include: models.Author, where: {id: id}})
+    res.status(200).json(book);
+  }
 }
 
 module.exports = Books

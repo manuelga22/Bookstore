@@ -16,11 +16,24 @@ class WishListItems extends Page {
   
   router() { return router; }
 
+  createAction(req, res) {
+    flash(req, {success: "Book has been successfully added."});
+    this.post(this.createApiUrl(), req.body.wishListItem, (success) => {
+      res.redirect(`/wish_lists/${req.body.wishListItem.WishListId}`);
+    }, (error) => {
+      flash(req, {danger: "That book is already in this wish list."});
+      res.redirect(`/wish_lists/${req.body.wishListItem.WishListId}`);
+      console.error(error);
+    });
+  }
+
   updateAction(req, res) {
     flash(req, {success: "Book has been successfully transferred."});
     this.put(this.updateApiUrl(req.params.id), req.body.wishListItem, (success) => {
       res.redirect(`/wish_lists/${req.body.wishListItem.WishListId}`);
     }, (error) => {
+      flash(req, {danger: "That book is already in this wish list."});
+      res.redirect(`/wish_lists/${req.body.wishListItem.WishListId}`);
       console.error(error);
     });
   }

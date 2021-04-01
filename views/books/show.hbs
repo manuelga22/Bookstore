@@ -1,0 +1,106 @@
+<!-- About Book Section  -->
+    <section id="about">
+    <div class="container">
+        <div class="row">
+            <img class="img-fluid" id="myImg"src="{{book.coverUrl}}" width="340" height="200">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <h3><u>{{book.title}}</u></h3>
+            <p>{{book.description}}</p>
+            <div class="about-profile">
+                <ul class="details">
+                    <li> <b>Author Name    : </b> <a href="#">{{book.Author.name}}</a></li>
+                    <li> <b>Author Bio     : </b> {{book.Author.bio}}</li>
+                    <li> <b>Book Genre     : </b> {{book.genre}}</li>
+                    <li> <b>Publisher Name : </b> {{book.publisher}}</li>
+                    <li> <b>Release Date   : </b> {{book.releaseDate}}</li>
+                    <li> <b>Book Ratings   : </b> PLACEHOLDER STAR ICON</li>
+                    <li> <b>Book Comments  : </b> <a href="#"></a>See all comments</a></li>
+                </ul>
+
+                <form method="post" action="/shopping_cart_items">
+                    {{#if user}}
+                        <a href="#" class="btn btn-warning" id="open-wishlist-modal"><i class="fa fa-plus"></i> Add to Wishlist</a>
+                    {{/if}}
+                    <input type="hidden" name="shoppingCartItem[BookId]" value="{{book.id}}" />
+                    <input type="hidden" name="shoppingCartItem[quantity]" value="1" />
+                    <input type="hidden" name="shoppingCartItem[deferred]" value="0" />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        Add to Cart
+                    </button>
+                </form>
+            </div>
+        </div>   
+        </div>
+    </div>
+    </section>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+<!-- The Close Button -->
+<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+<!-- Modal Content (The Image) -->
+<img class="modal-content" id="img01">
+
+<!-- Modal Caption (Image Text) -->
+<div id="caption"></div>
+</div>
+
+<div class="modal" id="wishlist-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Book to Wish List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/wish_list_items">
+          <div class="form-group">
+            <input type="hidden" name="wishListItem[BookId]" value="{{book.id}}" />
+            <label for="wishList_name">Wish List</label>
+            <select class="form-control" name="wishListItem[WishListId]">
+              {{#each wishLists}}
+                <option value="{{id}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="submit-wishlist-item">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="dismiss-wishlist-modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('myImg');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    modalImg.alt = this.alt;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    modal.style.display = "none";
+}
+</script>
+
+<script src="/js/wish_list_items.js"></script>

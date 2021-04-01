@@ -61,6 +61,8 @@ class ShoppingCartItems extends Page {
           })
           if(book)savedForLater.push(book)
         }  
+
+        console.log(booksInfo, allItemsInShoppingCart)
         //merge the bookInfo with shopping cart info
         let booksInShoppingCart = new Array(allItemsInShoppingCart.length)
         for(let i = 0; i<booksInShoppingCart.length; i++){
@@ -89,12 +91,14 @@ class ShoppingCartItems extends Page {
   };
   //SHOPPING CART FUNCTIONS
   async addItemsToShoppingCart(req,res){
-       const book = req.body
+       const body = req.body
+       console.log("THEN ",body.bookId)
        const bookObj = {
-         bookId: book.bookId,
+         BookId: parseInt(body.bookId),
          quantity: 1, //one is default
+         deferred: false
        }
-       this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.bookId})
+       this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.BookId})
        .then((message)=>{
           req.flash("message", "book has been added to the shopping cart")
           res.redirect("/shopping_Cart_items")
@@ -153,8 +157,8 @@ class ShoppingCartItems extends Page {
                return        
             } 
             // insert
-            await table.create(values);
-    
+            return await table.create(values);
+            
         }).catch(err=>console.log(err))
   };
 }

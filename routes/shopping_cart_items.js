@@ -11,13 +11,23 @@ class ShoppingCartItems extends Page {
           console.log(message)
         }).catch((err)=>console.log(err))
     })
+    router.post("/addToSaveForLater",(req,res)=>{
+      this.addItemToSaveForLater(req,res).then((message)=>{
+        console.log(message)
+      }).catch((err)=>console.log(err))
+    })
     router.post("/edit/:id",(req,res)=>{
       this.editQuantity(req,res).then((message)=>{
         console.log(message)
-     }).catch((err)=>console.log(err))
+      }).catch((err)=>console.log(err))
     })
     router.post("/delete/:id",(req,res)=>{
       this.deleteItemInshoppingCart(req,res).then((message)=>{
+         console.log(message)
+      }).catch((err)=>console.log(err))
+    })
+    router.post("/deleteSaveForLater/:id",(req,res)=>{
+      this.deleteItemInSaveForLater(req,res).then((message)=>{
          console.log(message)
       }).catch((err)=>console.log(err))
     })
@@ -32,9 +42,11 @@ class ShoppingCartItems extends Page {
         
         let totalCheckoutPrice = 0;
         const booksInfo = []
+        const savedForLater = []
 
         //get all items from shopping cart
         const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
+        const allItemsInSavedForLater = await models.SavedForLater.findAll()
    
         //get the names of the books and Price given the the ID of the book 
         for(const item of allItemsInShoppingCart){
@@ -43,61 +55,60 @@ class ShoppingCartItems extends Page {
           })
           if(book)booksInfo.push(book)
         }  
+        for(const item of allItemsInSavedForLater){
+          const book =  await models.Book.findOne({
+            where:{id: item.BookId}
+          })
+          if(book)savedForLater.push(book)
+        }  
         //merge the bookInfo with shopping cart info
         let booksInShoppingCart = new Array(allItemsInShoppingCart.length)
         for(let i = 0; i<booksInShoppingCart.length; i++){
           booksInShoppingCart[i] = {
             title : booksInfo[i].title,
             price : booksInfo[i].priceCents,
+            coverUrl: booksInfo[i].coverUrl,
+            bookId: booksInfo[i].id,
             quantity : allItemsInShoppingCart[i].quantity,
             deferred : allItemsInShoppingCart[i].deferred,
             id: allItemsInShoppingCart[i].id
           } 
-          totalCheckoutPrice += (booksInShoppingCart[i].price*allItemsInShoppingCart[i].quantity)
+          totalCheckoutPrice += (booksInShoppingCart[i].price*booksInShoppingCart[i].quantity)
         }
         //add WHERE after for user
-        res.render(`${this.constructor.name}/index`,{shopping_items: booksInShoppingCart, totalCheckoutPrice,msg:req.flash("message")});
+        res.render(`${this.constructor.name}/index`,{
+          shopping_items: booksInShoppingCart, 
+          saved_for_later_items: savedForLater,
+          totalCheckoutPrice,
+          msg: req.flash("message")
+        });
+
       }, (error) => {
         console.error(error);
       });
   };
+  //SHOPPING CART FUNCTIONS
   async addItemsToShoppingCart(req,res){
-       const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
-       const items = req.body
-
-
-      for(const book in items){
-         if(allItemsInShoppingCart.includes(book)){
-            //  UPDATE if the item is already in the shopping cart
-         }else{
-            //if item is not in the shopping cart then add it
-
-             this.upsert(book, {id: book.id})
-             .then((message)=>{
-              req.flash("message", "Items have been added to the shopping cart")
-              }).catch((err)=>req.flash("err", "Error while adding items to the shopping cart"))
-
-         }       
-      }
-       
-       res.redirect("/shopping_Cart_items")
-
-  }
-
+       const book = req.body
+       const bookObj = {
+         bookId: book.bookId,
+         quantity: 1, //one is default
+       }
+       this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.bookId})
+       .then((message)=>{
+          req.flash("message", "book has been added to the shopping cart")
+          res.redirect("/shopping_Cart_items")
+       }).catch((err)=>req.flash("err", "Error while adding book to the shopping cart"))
+  };
   async editQuantity(req,res){
       const id = req.params.id;
       const form = req.body
-
-      await models.ShoppingCartItem.update({ quantity: form.qty }, {
-        where: {
-          id: id
-        }
-      }).then((message)=>{
+      await models.ShoppingCartItem.update({ quantity: form.qty }, { where: {id: id} })
+      .then((message)=>{
         req.flash("message","Succesfully updated the item")
-      }).catch((err)=>req.flash("error",err) ) 
-      res.redirect("/shopping_cart_items");
+        res.redirect("/shopping_cart_items");
+      }).catch(err=>req.flash("error",err)) 
   };
-
   async deleteItemInshoppingCart(req,res){
     const itemId = req.params.id
     await models.ShoppingCartItem.destroy({
@@ -109,18 +120,43 @@ class ShoppingCartItems extends Page {
     }).catch((err)=>req.flash("error",err));
       res.status(304).redirect("/shopping_cart_items");
   };
+
+  // SAVE FOR LATER FUNCTIONS
+  async addItemToSaveForLater(req,res){
+    const body = req.body
+    const bookObj = {
+      BookId :parseInt(body.bookId)
+    }
+    this.upsert(models.SavedForLater,bookObj, {BookId: bookObj.BookId})
+    .then((message)=>{
+      req.flash("message", "book has been added to save for later")
+      res.redirect("/shopping_cart_items");
+    }).catch(err=>req.flash("err", "Error while adding book to the shopping cart"))
+  };
+
+  async deleteItemInSaveForLater(req,res){
+    const itemId = req.params.id
+    await models.SavedForLater.destroy({ where: {BookId: itemId}})
+    .then((message)=>{
+      req.flash("message","Succesfully deleted the item")
+      res.status(304).redirect("/shopping_cart_items");
+     }).catch((err)=>req.flash("error",err));
+  };
    //updates or creates a new item
-   upsert(values, condition) {
-    return models.ShoppingCartItem
-        .findOne({ where: condition })
-        .then(function(obj) {
+  async upsert(table, values, condition) {
+     console.log(table)
+     await table.findOne({ where: condition })
+        .then(async (obj)=> {
             // update
-            if(obj)
-                return obj.update(values);
+            if(obj){
+               console.log("item already exists")
+               return        
+            } 
             // insert
-            return Model.create(values);
-        })
-   };
+            await table.create(values);
+    
+        }).catch(err=>console.log(err))
+  };
 }
 
 module.exports = ShoppingCartItems

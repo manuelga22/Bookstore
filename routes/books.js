@@ -16,7 +16,6 @@ class Books extends Page {
   router() { return router; }
 
   show(req, res) {
-    req.session.user = models.User.build({id: 1, username: "Orlando", firstName: "Orlando", lastName: "de Frias"})
     if (req.session.user) {
       this.get(this.userWishListsApiUrl(req.session.user.id), (wishListsSuccess) => {
         // Remove the current wish list from the results since we can't transfer to it

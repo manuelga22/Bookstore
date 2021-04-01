@@ -10,6 +10,7 @@ class WishListItems extends Page {
   
     super(router);
 
+    //this.currentUser = req.session.user
     // Placeholder for singleton while waiting to merging William's branch
     this.currentUser = models.User.build({id: 1, username: "Orlando"});
   }

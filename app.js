@@ -96,8 +96,7 @@ async function init() {
   // const homeRoutes = require("./routes/homeRoutes")
   // app.use('/', homeRoutes)
 
-  const userRoutes = require("./routes/userRoutes")
-  app.use('/', userRoutes)
+
 
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

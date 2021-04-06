@@ -1,5 +1,5 @@
 const Page = require('./page');
-const { getIdParam } = require('../helpers');
+const { getIdParam, flash } = require('../helpers');
 const { models } = require('../sequelize');
 const express = require('express');
 const router = express.Router();

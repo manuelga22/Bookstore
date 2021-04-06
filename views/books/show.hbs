@@ -1,9 +1,21 @@
 <!-- About Book Section  -->
+    <head>
+        <style>
+            h1 {text-align: center;}
+            p {text-align: left;}
+            div {text-align: left;}
+</style>
+    </head>
     <section id="about">
     <div class="container">
+        <div class="headr">
+            <h1>          </h1>
+            <h2>          </h2>
+            <h1>          </h1>
+        </div>
         <div class="row">
             <img class="img-fluid" id="myImg"src="{{book.coverUrl}}" width="340" height="200">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="col-lg-8 col-md-10 col-sm-15 col-xs-20">
             <h3><u>{{book.title}}</u></h3>
             <p>{{book.description}}</p>
             <div class="about-profile">
@@ -15,6 +27,12 @@
                     <li> <b>Release Date   : </b> {{book.releaseDate}}</li>
                     <li> <b>Book Ratings   : </b> PLACEHOLDER STAR ICON</li>
                     <li> <b>Book Comments  : </b> <a href="#"></a>See all comments</a></li>
+                    <li> <b>Price : </b>
+                        <script type="text/javascript">
+                        var dollar_cost = {{book.priceCents}} / 100
+                        document.write('$' + dollar_cost.toFixed(2))
+                        </script>
+                    </li>
                 </ul>
             <a href="#" class="btn btn-warning"> Add to Wishlist</a>
             <a href="#" class="btn btn-danger"> Add to cart</a>

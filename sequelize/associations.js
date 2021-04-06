@@ -7,6 +7,7 @@ function applyAssociations(sequelize) {
     Rating,
     ShippingAddress,
     ShoppingCartItem,
+    SavedForLater,
     User,
     WishListItem,
     WishList
@@ -32,6 +33,11 @@ function applyAssociations(sequelize) {
   ShoppingCartItem.belongsTo(CreditCard);
   ShoppingCartItem.belongsTo(ShippingAddress);
   ShoppingCartItem.belongsTo(User);
+  
+  SavedForLater.belongsTo(Book);
+  SavedForLater.belongsTo(CreditCard);
+  SavedForLater.belongsTo(ShippingAddress);
+  SavedForLater.belongsTo(User);
 
   User.hasMany(CreditCard);
   User.hasMany(Rating);

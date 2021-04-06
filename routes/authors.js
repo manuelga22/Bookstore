@@ -14,6 +14,7 @@ class Authors extends Page {
   router() { return router; }
 
   // Add more api methods here...
+  
 }
 
 module.exports = Authors

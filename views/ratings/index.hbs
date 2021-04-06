@@ -1,0 +1,121 @@
+<div class="ratings container">
+ 
+    <script>
+     function countChars(obj){
+     document.getElementById("charNum").innerHTML = obj.value.length+' / 500 Characters';
+    }
+    </script>
+
+    <h1> <center> Rating and Commenting </center>  </h1>
+    <br>
+    <br>
+
+    <!-- First Test Book -->
+    <div class = "book-container"> 
+      <div class = "icon">
+      </div>
+      <div class = "book-test"> 
+         <h2> The Book of F# </h2>
+                 <img src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="Image goes here">
+
+         <p> Book Description </p>
+         <span> More about this book </span>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+              Rate Book
+          </button>
+      </div>
+     
+    </div>
+
+     <!-- Second Test Book -->
+    <div class = "book-container"> 
+      <div class = "icon">
+      </div>
+      <div class = "book-test"> 
+         <h2> Book Name</h2>
+                 <img src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="Image goes here">
+
+         <p> Book Description </p>
+         <span> More about this book </span>
+         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+              Rate Book
+          </button>
+      </div>
+     
+    </div>
+
+     <!-- Third Test Book -->
+    <div class = "book-container"> 
+      <div class = "icon">
+      </div>
+      <div class = "book-test"> 
+         <h2> Book Name</h2>
+                 <img src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="Image goes here">
+
+         <p> Book Description </p>
+         <span> More about this book </span>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+              Rate Book
+          </button>
+      </div>
+     
+    </div>
+
+     <!-- Fourt Test Book -->
+    <div class = "book-container"> 
+      <div class = "icon">
+      </div>
+      <div class = "book-test"> 
+         <h2> Book Name</h2>
+                 <img src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="Image goes here">
+
+         <p> Book Description </p>
+         <span> More about this book </span>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+              Rate Book
+            </button>
+      </div>
+     
+    </div>
+    
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"> Book Title </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <!-- Body -->
+            <div class="modal-body">
+            
+            <img src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="">
+
+            <textarea name="message" id = "inputComment" onkeyup="countChars(this);"></textarea>
+            <p class ="charNum">0/500 Characters</p>
+            <button type = "clear" class = "btn btn-light" onclick="document.getElementById('inputComment').value = ''"> Clear </button>
+            
+            
+            <!-- Footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
+              <button type="button" class="btn btn-info"> Submit Comment </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+  <ul class="list-group">
+    {{#each Rating}}
+      <li class="list-group-item"><a href="/ratings/{{id}}">{{name}}</a></li>
+    {{/each}}
+  </ul>
+</div>

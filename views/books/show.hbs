@@ -1,0 +1,186 @@
+<!-- About Book Section  -->
+    <head>
+        <style>
+            h1 {text-align: center;}
+            p {text-align: left;}
+            div {text-align: left;}
+</style>
+    </head>
+    <section id="about">
+    <div class="container">
+        <div class="headr">
+            <h1>          </h1>
+            <h2>          </h2>
+            <h1>          </h1>
+        </div>
+        <div class="row">
+            <img class="img-fluid" id="myImg"src="{{book.coverUrl}}" width="340" height="200">
+        <div class="col-lg-8 col-md-10 col-sm-15 col-xs-20">
+            <h3><u>{{book.title}}</u></h3>
+            <p>{{book.description}}</p>
+            <div class="about-profile">
+                <ul class="details">
+                    <li> <b>Author Name    : </b> <a href="#">{{book.Author.name}}</a></li>
+                    <li> <b>Author Bio     : </b> {{book.Author.bio}}</li>
+                    <li> <b>Book Genre     : </b> {{book.genre}}</li>
+                    <li> <b>Publisher Name : </b> {{book.publisher}}</li>
+                    <li> <b>Release Date   : </b> {{book.releaseDate}}</li>
+                    <li> <b>Book Ratings   : </b> PLACEHOLDER STAR ICON</li>
+                    <li> <b>Price : </b>
+                        <script type="text/javascript">
+                        var dollar_cost = {{book.priceCents}} / 100
+                        document.write('$' + dollar_cost.toFixed(2))
+                        </script>
+                    </li>
+                </ul>
+            <a href="#" class="btn btn-warning"> Add to Wishlist</a>
+            <a href="#" class="btn btn-danger"> Add to cart</a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> 
+                Rate Book
+            </button>
+
+            </div>
+        </div>   
+        </div>
+    </div>
+    </section>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+<!-- The Close Button -->
+<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+<!-- Modal Content (The Image) -->
+<img class="modal-content" id="img01">
+
+<!-- Modal Caption (Image Text) -->
+<div id="caption"></div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('myImg');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    modalImg.alt = this.alt;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    modal.style.display = "none";
+}
+</script>
+
+<!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="col-5 modal-title" id="exampleModalLabel"> <h1> <b> {{book.title}} </b></h1> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+            <img class = "rating-book-image" src="{{book.coverUrl}}" alt = "">
+            <br><br><br><br>
+            <!-- Start of POST to database -->
+            <form method = "POST" action = "{{urls.create}}">
+
+            <div class = "form-group">
+
+            <!-- Review Title
+                Missing: Database field to input a review title. -->
+
+            <div class = 'review-title-container'> 
+                <h3><b> Review Title </b></h3>
+                <input type="text" class = "review-title" maxlength = "25" id = "commenting-title-box" name = "rating[review_title]">
+            </div>
+
+            <br>
+
+            <div class = 'review-comment-container'>
+                <h3>
+                    <b> Comment </b>
+                </h3>
+            <textarea class = "commentary" id = "commenting-box" name="rating[comment]" id = "inputComment" onkeyup="countChars(this);"> </textarea>
+            </div>
+
+            <div class = 'char-counter'>
+            <p class = "char-box-counter" id ="charNum"> 0 / 500 Characters</p>
+            </div>
+
+            <br>
+
+            <div class = 'anonymous'>
+
+            <input type="checkbox" id="rating_anonymous" name="rating[anonymous]" value="0">
+            <label for="rating_anonymous"> Make Anonymous Review </label><br>
+<!-- Re
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "0">
+             <label for="rating_anonymous"> Anonymous User  </label>
+
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "1">
+             <label for="rating_anonymous"> Show Username </label>
+             -->
+            </div>
+
+<br> <br> 
+
+<div class="rate">
+  
+    <input type="radio" id="star5" name="rating[score]" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star4" name="rating[score]" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star3" name="rating[score]" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star2" name="rating[score]" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star1" name="rating[score]" value="1" />
+    <label for="star1" title="text">1 star</label>
+    <div class = 'yrate'>
+       <h3><b> Your Rating: </b></h3>
+    </div>
+   
+</div>
+<br> <br> <br>
+
+<div class = 'bookdetails'>
+  <p><b> Author: </b> {{book.Author.name}}</p>
+  <p><b> Publisher: </b> {{book.publisher}} </p>
+</div>
+
+            <hr class = 'line-break'>
+
+
+      
+
+             </div> 
+
+            <button type = "submit" class = "btn btn-primary"> Create Comment </button>
+            <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
+           </form>
+
+
+           </div>
+            
+          </div>
+        </div>
+      </div>

@@ -3,7 +3,7 @@ const { applyAssociations } = require('./associations');
 
 // Set up an environment variable with the connection string (in ~/.bash_profile or ~/.zshrc)
 // E.g. export GEEK_TEXT_DB_CONNECTION_URL="mysql://user:pass@127.0.0.1:3306/database_name"
-const sequelize = new Sequelize(process.env.GEEK_TEXT_DB_CONNECTION_URL);
+const sequelize = new Sequelize(process.env.GEEK_TEXT_DB_CONNECTION_URL,{password:"1234"});
 
 const modelDefiners = [
   require('./models/author'),
@@ -12,6 +12,7 @@ const modelDefiners = [
   require('./models/rating'),
   require('./models/shipping_address'),
   require('./models/shopping_cart_item'),
+  require('./models/saved_for_later'),
   require('./models/user'),
   require('./models/wish_list_item'),
   require('./models/wish_list')

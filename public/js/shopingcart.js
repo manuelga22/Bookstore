@@ -21,9 +21,16 @@ $('.editBtn').on('click',function(event){
 })
 
 
-$('.add-to-save-for-later .add-to-shopping-cart').on('click',function (event) {
+$('.add-to-save-for-later').on('click',function (event) {
     const bookId = $(this).attr('data-bookid')
     $.post('/addToSaveForLater', {bookId}, function (data) {
+        location.reload()
+    });
+});
+
+$('.add-to-shopping-cart').on('click',function (event) {
+    const bookId = $(this).attr('data-bookid')
+    $.post('/addToShoppingCart', {bookId}, function (data) {
         location.reload()
     });
 });

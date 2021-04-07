@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
       allowNull: true,
       type: DataTypes.STRING
     },
+    review_title: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
     anonymous: {
       allowNull: false,
       default: false,

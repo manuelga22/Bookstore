@@ -1,9 +1,25 @@
 <!-- About Book Section  -->
+    <head>
+        <style>
+            h1 {text-align: center;}
+            p {text-align: left;}
+            div {text-align: left;}
+</style>
+    </head>
     <section id="about">
     <div class="container">
+        <div class="headr">
+            <h1>          </h1>
+            <h2>          </h2>
+            <h1>          </h1>
+        </div>
         <div class="row">
+
+            <div class = 'img-books'>
             <img class="img-fluid" id="myImg"src="{{book.coverUrl}}" width="340" height="200">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            </div>
+
+        <div class="col-lg-8 col-md-10 col-sm-15 col-xs-20">
             <h3><u>{{book.title}}</u></h3>
             <p>{{book.description}}</p>
             <div class="about-profile">
@@ -14,7 +30,12 @@
                     <li> <b>Publisher Name : </b> {{book.publisher}}</li>
                     <li> <b>Release Date   : </b> {{book.releaseDate}}</li>
                     <li> <b>Book Ratings   : </b> PLACEHOLDER STAR ICON</li>
-                    <li> <b>Book Comments  : </b> <a href="#"></a>See all comments</a></li>
+                    <li> <b>Price : </b>
+                        <script type="text/javascript">
+                        var dollar_cost = {{book.priceCents}} / 100
+                        document.write('$' + dollar_cost.toFixed(2))
+                        </script>
+                    </li>
                 </ul>
 
                 <form method="post" action="/shopping_cart_items">
@@ -30,6 +51,24 @@
                     </button>
                 </form>
             </div>
+            
+                <hr>
+                <div class = "rating-1-comment">
+                    <h3><b> Review Tittle </b></h3>
+                    <p> Review commentary goes here.</p>
+                    <p> Stars given </p>
+                    
+                    <p> <b> User: {{username}} </b> </p>
+                </div>
+                <hr>
+                 <div class = "rating-2-comment">
+                    <h3><b> Review Tittle </b></h3>
+                    <p> Review commentary goes here.</p>
+                    <p> Stars given </p>
+
+                    <p> <b> User: {{username}} </b> </p>
+                </div>
+                <hr>
         </div>   
         </div>
     </div>
@@ -104,3 +143,109 @@ span.onclick = function() {
 </script>
 
 <script src="/js/wish_list_items.js"></script>
+
+<script>
+   function countChars(obj){
+   document.getElementById("charNum").innerHTML = obj.value.length+' / 500 Characters';
+}
+</script>
+
+<!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5  id="exampleModalLabel">  <b></b> <h3> {{book.title}} </h3> </b> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+            <img class = "rating-book-image" src="{{book.coverUrl}}" alt = "">
+            <br><br><br><br>
+            <!-- Start of POST to database -->
+            <form method = "POST" action = "{{urls.create}}">
+
+            <div class = "form-group">
+
+            <!-- Review Title
+                Missing: Database field to input a review title. -->
+
+            <div class = 'review-title-container'> 
+                <h3><b> Review Title </b></h3>
+                
+                <input type="text" class = "review-title" maxlength = "25" id = "commenting-title-box" name = "rating[review_title]">
+            </div>
+
+            <br>
+
+            <div class = 'review-comment-container'>
+                <h3>
+                    <b> Comment </b>
+                </h3>
+            <textarea class = "commentary" id = "commenting-box" name="rating[comment]" id = "inputComment" onkeyup="countChars(this);"> </textarea>
+            </div>
+
+            <div class = 'char-counter'>
+            <p class = "char-box-counter" id ="charNum"> 0 / 500 Characters</p>
+            </div>
+
+            <br>
+
+            <div class = 'anonymous'>
+
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "0">
+             <label for="rating_anonymous"> Make Anonymous Review  </label>
+                <br>
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "1">
+             <label for="rating_anonymous"> Show Username </label>
+             
+            </div>
+
+<br> <br> 
+
+<div class="rate">
+  
+    <input type="radio" id="star5" name="rating[score]" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star4" name="rating[score]" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star3" name="rating[score]" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star2" name="rating[score]" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star1" name="rating[score]" value="1" />
+    <label for="star1" title="text">1 star</label>
+    <div class = 'yrate'>
+       <h3><b> Your Rating: </b></h3>
+    </div>
+   
+</div>
+<br> <br> <br>
+
+<div class = 'bookdetails'>
+  <p><b> Author: </b> {{book.Author.name}}</p>
+  <p><b> Publisher: </b> {{book.publisher}} </p>
+</div>
+
+            <hr class = 'line-break'>
+
+
+      
+
+             </div> 
+
+            <button type = "submit" class = "btn btn-primary"> Create Comment </button>
+            <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
+           </form>
+
+
+           </div>
+            
+          </div>
+        </div>
+      </div>

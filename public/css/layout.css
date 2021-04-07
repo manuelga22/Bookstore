@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 .body{
     min-height:80vh !important;
 }
@@ -24,36 +29,73 @@ img.expanded {
     margin: 20px 0;
 }
 
-/* WISH LIST */
-.wish-lists.container {
-    padding: 30px 0;
-}
-.wish-lists.container .header {
-    overflow: hidden;
-    height: 100%;
-}
-.wish-lists.container .header .buttons {
-    float: right;
-    display: inline;
-}
-.wish-lists.container .header h1 {
+.book-test {
+    width: 48%;
     float: left;
-    display: inline;
 }
-.wish-lists.container .list-group-item span.book-count {
-    float: right;
-    display: inline;
-    font-size: 0.8em;
-    color: #888;
+
+.modal-body {
+    align-content: right;
+}
+
+.about-profile
+{
     position: relative;
-    top: 2px;
+    margin-left: 2%;
 }
-.wish-lists.container .book-cover {
-    width: 100px;
-    height: auto;
+
+
+.modal-header {
+    background-color: #CB6363;
+  
 }
-.wish-lists.container table td {
-    vertical-align: middle;
+
+
+.rating-book-image {
+    position: absolute;
+    height: 65%;
+    width: 34%;
+}
+
+.review-title-div {
+    height: 270px;
+    width: 250px;
+}
+
+.commentary {
+    text-align: top;
+    height: 150px;
+    width: 100%;
+    resize: none;
+}
+
+.char-counter {
+    position: absolute;
+    margin-left: 80%;
+}
+
+.review-title-container {
+    position: absolute;
+    margin-top: -13%;
+    margin-left: 35%;
+}
+
+.review-comment-container {
+    position: relative;
+    margin-top: -6%;
+    margin-left: 37%;
+}
+
+.anonymous {
+    position: absolute;
+    margin-left: 37%;
+    height: 2%;
+}
+
+.line-break { 
+    background-color: #CB6363;
+    position: relative;
+    height: 7%;
 }
 /* Footer */
 .footer{
@@ -65,20 +107,61 @@ img.expanded {
     margin: 20px auto;
 }
 
-.book-test {
-    width: 48%;
-    float: left;
+.rate {
+    position: relative;
+    height: 9px;
+    margin-right: 10%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    margin-left: 37%;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:35px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
 }
 
-.modal-body {
-    align-content: right;
+.review-1 {
+    border-style: solid;
+
+}
+
+
+.yrate {
+    position: absolute;
+    margin-top: 3%;
 }
 
 .charNum {
     margin-top: -6rem;
     margin-bottom: 2rem;
     margin-left: 20rem;
-}
+ }
 
 /* Style the Image Used to Trigger the Modal */
 #myImg {
@@ -159,10 +242,51 @@ img.expanded {
     text-decoration: none;
     cursor: pointer;
 }
+/* WISH LIST */
+.wish-lists.container {
+    padding: 30px 0;
+}
+.wish-lists.container .header {
+    overflow: hidden;
+    height: 100%;
+}
+.wish-lists.container .header .buttons {
+    float: right;
+    display: inline;
+}
+.wish-lists.container .header h1 {
+    float: left;
+    display: inline;
+}
+.wish-lists.container .list-group-item span.book-count {
+    float: right;
+    display: inline;
+    font-size: 0.8em;
+    color: #888;
+    position: relative;
+    top: 2px;
+}
+.wish-lists.container .book-cover {
+    width: 100px;
+    height: auto;
+}
+.wish-lists.container table td {
+    vertical-align: middle;
+}
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
     .modal-content {
         width: 100%;
+    }
+    .content {
+        margin: 20px 0;
+    }
+    /* Footer */
+    .footer{
+    background:  lightgrey;
+    color:black !important;
+        background:  lightgrey;
+        color:black !important;
     }
 }

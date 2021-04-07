@@ -89,6 +89,17 @@ class ShoppingCartItems extends Page {
         console.error(error);
       });
   };
+  
+  createAction(req, res) {
+    flash(req, {success: "Book has been successfully added to cart."});
+    req.body.shoppingCartItem.UserId = req.session.user.id
+    this.post(this.createApiUrl(req.params.id), req.body.shoppingCartItem, (success) => {
+      res.redirect(this.indexPageUrl());
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
   //SHOPPING CART FUNCTIONS
   async addItemsToShoppingCart(req,res){
        const body = req.body

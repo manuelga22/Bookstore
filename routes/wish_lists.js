@@ -12,6 +12,7 @@ class WishLists extends Page {
     
     super(router);
 
+    //this.currentUser = req.session.user
     // Placeholder for singleton while waiting to merging William's branch
     this.currentUser = models.User.build({id: 1, username: "Orlando"});
     this.maxWishListCount = 3;
@@ -23,18 +24,6 @@ class WishLists extends Page {
   router() { return router; }
 
   // Example of how to pass a custom object to a common page route
-  index(req, res) {
-    super.index(req, res, {
-      user: this.currentUser
-    });
-  }
-
-  edit(req, res) {
-    super.edit(req, res, {
-      user: this.currentUser
-    });
-  }
-
   new(req, res) {
     this.get(this.userWishListsApiUrl(this.currentUser.id), (success) => {
       const wishListCount = success.data.length;
@@ -43,9 +32,7 @@ class WishLists extends Page {
         flash(req, {danger: `You are only allowed to create ${pluralize('wish list', this.maxWishListCount, true)}.`});
         res.redirect(`/wish_lists`);
       } else {
-        super.new(req, res, {
-          user: this.currentUser
-        });
+        super.new(req, res);
       }
     }, (error) => {
       console.error(error);
@@ -67,7 +54,6 @@ class WishLists extends Page {
           items: items,
           wishLists: wishLists,
           hasMultipleWishlists: wishLists.length > 0,
-          user: this.currentUser,
           urls: {
             edit: this.editPageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)

@@ -37,12 +37,19 @@
                         </script>
                     </li>
                 </ul>
-            <a href="#" class="btn btn-warning"> Add to Wishlist</a>
-            <a href="#" class="btn btn-danger"> Add to cart</a>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> 
-                Rate Book
-            </button>
 
+                <form method="post" action="/shopping_cart_items">
+                    {{#if user}}
+                        <a href="#" class="btn btn-warning" id="open-wishlist-modal"><i class="fa fa-plus"></i> Add to Wishlist</a>
+                    {{/if}}
+                    <input type="hidden" name="shoppingCartItem[BookId]" value="{{book.id}}" />
+                    <input type="hidden" name="shoppingCartItem[quantity]" value="1" />
+                    <input type="hidden" name="shoppingCartItem[deferred]" value="0" />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        Add to Cart
+                    </button>
+                </form>
             </div>
             
                 <hr>
@@ -81,6 +88,36 @@
 <div id="caption"></div>
 </div>
 
+<div class="modal" id="wishlist-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Book to Wish List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/wish_list_items">
+          <div class="form-group">
+            <input type="hidden" name="wishListItem[BookId]" value="{{book.id}}" />
+            <label for="wishList_name">Wish List</label>
+            <select class="form-control" name="wishListItem[WishListId]">
+              {{#each wishLists}}
+                <option value="{{id}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="submit-wishlist-item">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="dismiss-wishlist-modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -105,6 +142,7 @@ span.onclick = function() {
 }
 </script>
 
+<script src="/js/wish_list_items.js"></script>
 
 <script>
    function countChars(obj){

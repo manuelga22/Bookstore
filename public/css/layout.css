@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
 .body{
     min-height:80vh !important;
 }
@@ -20,9 +25,8 @@ img.expanded {
     max-width: none;
 }
 
-.book-container {
-    width: 96%;
-    margin: 20px auto;
+.content {
+    margin: 20px 0;
 }
 
 .book-test {
@@ -93,10 +97,14 @@ img.expanded {
     position: relative;
     height: 7%;
 }
-
-*{
-    margin: 0;
-    padding: 0;
+/* Footer */
+.footer{
+  background:  lightgrey;
+  color:black !important;
+}
+.book-container {
+    width: 96%;
+    margin: 20px auto;
 }
 
 .rate {
@@ -234,16 +242,6 @@ img.expanded {
     text-decoration: none;
     cursor: pointer;
 }
-
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-    .modal-content {
-        width: 100%;
-    }
-.content {
-    margin: 20px 0;
-}
-
 /* WISH LIST */
 .wish-lists.container {
     padding: 30px 0;
@@ -275,11 +273,20 @@ img.expanded {
 .wish-lists.container table td {
     vertical-align: middle;
 }
-/* Footer */
-.footer{
-  background:  lightgrey;
-  color:black !important;
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+    .content {
+        margin: 20px 0;
+    }
+    /* Footer */
+    .footer{
     background:  lightgrey;
     color:black !important;
-}
+        background:  lightgrey;
+        color:black !important;
+    }
 }

@@ -24,11 +24,19 @@
             <td><a href="/books/{{Book.id}}">{{Book.title}}</a></td>
             <td>{{createdAtDecorated}}</td>
             <td>
-              <a href="#" class="btn btn-primary"><i class="fa fa-plus"></i></i> Add to Cart</a>
-              {{#if ../hasMultipleWishlists}}
-                <a href="#" class="btn btn-secondary transfer-button" data-toggle="modal" data-id="{{id}}" data-target="#transfer-modal"><i class="fa fa-exchange-alt"></i> Transfer</a>
-              {{/if}}
+              <form method="post" action="/shopping_cart_items">
+                <input type="hidden" name="shoppingCartItem[BookId]" value="{{Book.id}}" />
+                <input type="hidden" name="shoppingCartItem[quantity]" value="1" />
+                <input type="hidden" name="shoppingCartItem[deferred]" value="0" />
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa fa-plus"></i>
+                  Add to Cart
+                </button>
+                {{#if ../hasMultipleWishlists}}
+                  <a href="#" class="btn btn-secondary transfer-button" data-id="{{id}}" data-target="#transfer-modal"><i class="fa fa-exchange-alt"></i> Transfer</a>
+                {{/if}}
               <a href="/wish_list_items/{{id}}?_method=DELETE" class="btn btn-danger"><i class="fa fa-times"></i></i></a>
+              </form>
             </td>
           </tr>
         {{/each}}

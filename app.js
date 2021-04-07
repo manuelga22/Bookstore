@@ -50,12 +50,10 @@ app.use((req, res, next) => {
 // We do this so we can A) use PUT/DELETE in browser that don't support it
 // and B) so we can create links to delete records (e.g. /wish_lists/:id?_method=DELETE)
 app.use(function(req, res, next) {
-  if (req.query._method == 'PUT') {
-    req.method = 'PUT';
-    req.url = req.path;
-  }
-  if (req.query._method == 'DELETE') {
-    req.method = 'DELETE';
+  const allowedMethods = ["GET", "POST", "PUT", "DELETE"]
+
+  if (allowedMethods.includes(req.query._method)) {
+    req.method = req.query._method;
     req.url = req.path;
   }
 

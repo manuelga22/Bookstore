@@ -1,0 +1,136 @@
+<head>
+  <style>
+  * {box-sizing: border-box}
+  .container {
+    padding: 16px;
+  }
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+  }
+  .savebtn {
+    background-color: #c73030;
+    color: white;
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+  }
+  .registerbtn:hover {
+    opacity:1;
+  }
+  a {
+    color: dodgerblue;
+  }
+  .signin {
+    background-color: #f1f1f1;
+    text-align: center;
+  }
+
+  #save {
+          background-color: #c73030;
+          color: white;
+
+  }
+  </style>
+</head>
+
+
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+  		<div class="col-sm-10"><h1>Geek-Text User</h1></div>
+    </div>
+    <div class="row">
+  		<div class="col-sm-10">
+
+
+        </div><!--/col-3-->
+    	<div class="col-sm-9">
+
+
+          <div class="tab-content">
+            <div class="tab-pane active" id="home">
+                <hr>
+                  <form class="form" action="/update" method="post" id="registrationForm">
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="first_name"><h4>First name</h4></label>
+                              <input value='{{firstName}}' type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" title="enter your first name if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                            <label for="last_name"><h4>Last name</h4></label>
+                              <input value='{{lastName}}' type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name" title="enter your last name if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                            <label for="last_name"><h4>Username</h4></label>
+                              <input value='{{username}}' type="text" class="form-control" name="username" id="username" placeholder="username" title="enter your last name if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="email"><h4>Email</h4></label>
+                              <input value='{{email}}' type="email" class="form-control" name="email" id="email" placeholder="Email" title="enter your email.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="location"><h4>Address</h4></label>
+                              <input value='{{address}}' type="text" class="form-control" name = "address" id="location" placeholder="Address" title="enter a location">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="password"><h4>Password</h4></label>
+                              <input value='{{password}}' type="password" class="form-control" name="password" id="password" placeholder="Password" title="enter your password.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                            <label for="password2"><h4>Verify</h4></label>
+                              <input value='{{password}}' type="password" class="form-control" name="password2" id="password2" placeholder="Verify Password" title="enter your password2.">
+                          </div>
+                      </div>
+                      <div class="form-group" method="POST" action="/update">
+                           <div class="col-xs-12">
+                                <br>
+                              	<button class="btn btn-lg" id ="save"type="submit" method="POST" action="/update"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                               	<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            </div>
+                      </div>
+              	</form>
+
+              <hr>
+
+            
+
+              </div><!--/tab-pane-->
+          </div><!--/tab-content-->
+
+        </div><!--/col-9-->
+    </div><!--/row-->

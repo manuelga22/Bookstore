@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bookstore</title>
+        <link rel="stylesheet" href="/css/layout.css">
+        <script src="https://kit.fontawesome.com/295874cf0b.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script src="/js/home.js"></script>
+    </head>
+    <body>
+        {{!- nav bar --}}
+        <nav class="navbar navbar-expand-lg navbar-light  nav-bar-style">
+            <a class="navbar-brand" href="/">Geek Text</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/books">
+                            Explore Books
+                        </a>
+                    </li>
+                    {{#if user}}
+                    {{!-- <li class="nav-item" method="POST" action="/logout">
+                            <a class="nav-link " method="POST" action="/logout" href="/log-in">Log out</a>
+                        </li>  --}}
+                    {{else}}
+                        <li class="nav-item">
+                            <a class="nav-link " href="/sign-up">Sign-up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="/log-in">Log-in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link right" href="/shopping_cart_items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewbox="0 0 16 16">
+                                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    {{/if}}
+                </ul>
+                {{#if user}}
+                <span class="nav-item nav-text-inline dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              {{user.username}}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="/wish_lists">Wish Lists</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/shopping_cart_items">Shopping Cart</a>
+                        </div>
+                    </span>
+                {{/if}}
+            </div>
+        </nav>
+        {{!-- end of nav bar --}}
+
+        {{!-- main content  THIS IS WHERE VIEWS ARE RENDERED--}}
+        <div class="body">
+            {{> flash}}
+            {{{ body }}}
+        </div>
+        {{!-- end of main content --}}
+
+
+        {{!-- footer --}}
+        <div class="mt-5 pt-5  footer">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-5 col-xs-12 about-company">
+      <h2>Geek Text</h2>
+      <p class="pr-5 text-white-50">This is our project for Software Engineering 1</p>
+      <p><a href="#"><i class="fa fa-facebook-square mr-1"></i></a><a href="#"><i class="fa fa-linkedin-square"></i></a></p>
+    </div>
+    <div class="col-lg-3 col-xs-12 links">
+      <h4 class="mt-lg-0 mt-sm-3">Links</h4>
+        <ul class="m-0 p-0">
+          <li>- <a href="#">Facebook</a></li>
+          <li>- <a href="#">Instagram</a></li>
+          <li>- <a href="#">Twitter</a></li>
+        </ul>
+    </div>
+    <div class="col-lg-4 col-xs-12 location">
+      <h4 class="mt-lg-0 mt-sm-4">Location</h4>
+      <p>Miami, Florida</p>
+      <p class="mb-0"><i class="fa fa-phone mr-3"></i></p>
+      <p><i class="fa fa-envelope-o mr-3"></i>info@hsdf.com</p>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col copyright">
+      <p class=""><small class="text-white-50">© 2021. All Rights Reserved.</small></p>
+    </div>
+  </div>
+</div>
+</div>
+      {{!-- end of footer --}}
+
+
+    </body>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</html>

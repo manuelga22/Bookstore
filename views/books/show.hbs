@@ -40,6 +40,21 @@
             </button>
 
             </div>
+            
+                <hr>
+                <div class = "rating-1-comment">
+                    <h3><b> Review Tittle </b></h3>
+                    <p> Review commentary goes here.</p>
+                    <p> Stars given </p>
+                    
+                    <p> <b> User: {{username}} </b> </p>
+                </div>
+                <hr>
+                 <div class = "rating-2-comment">
+                    <h3><b> Review Tittle </b></h3>
+                    <p> Review commentary goes here.</p>
+                    <p> <b> User: {{username}} </b> </p>
+                </div>
         </div>   
         </div>
     </div>
@@ -83,6 +98,13 @@ span.onclick = function() {
 }
 </script>
 
+
+<script>
+   function countChars(obj){
+   document.getElementById("charNum").innerHTML = obj.value.length+' / 500 Characters';
+}
+</script>
+
 <!-- Modal -->
     <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -110,6 +132,7 @@ span.onclick = function() {
 
             <div class = 'review-title-container'> 
                 <h3><b> Review Title </b></h3>
+                
                 <input type="text" class = "review-title" maxlength = "25" id = "commenting-title-box" name = "rating[review_title]">
             </div>
 
@@ -130,15 +153,12 @@ span.onclick = function() {
 
             <div class = 'anonymous'>
 
-            <input type="checkbox" id="rating_anonymous" name="rating[anonymous]" value="0">
-            <label for="rating_anonymous"> Make Anonymous Review </label><br>
-<!-- Re
              <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "0">
-             <label for="rating_anonymous"> Anonymous User  </label>
-
+             <label for="rating_anonymous"> Make Anonymous Review  </label>
+                <br>
              <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "1">
              <label for="rating_anonymous"> Show Username </label>
-             -->
+             
             </div>
 
 <br> <br> 

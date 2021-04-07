@@ -34,11 +34,120 @@ img.expanded {
     align-content: right;
 }
 
+
+
+.modal-header {
+    background-color: #CB6363;
+}
+
+
+.rating-book-image {
+    position: absolute;
+    height: 69%;
+    width: 34%;
+}
+
+.review-title-div {
+    height: 270px;
+    width: 250px;
+}
+
+.commentary {
+    text-align: top;
+    height: 150px;
+    width: 100%;
+    resize: none;
+}
+
+.char-counter {
+    position: absolute;
+    margin-left: 80%;
+}
+
+.review-title-container {
+    position: absolute;
+    margin-top: -13%;
+    margin-left: 35%;
+}
+
+.review-comment-container {
+    position: relative;
+    margin-top: -6%;
+    margin-left: 37%;
+}
+
+.anonymous {
+    position: absolute;
+    margin-left: 37%;
+    height: 2%;
+}
+
+.line-break { 
+    background-color: #CB6363;
+    position: relative;
+    height: 7%;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.rate {
+    position: relative;
+    height: 9px;
+    margin-right: 10%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    margin-left: 37%;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:35px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.review-1 {
+    border-style: solid;
+
+}
+
+
+.yrate {
+    position: absolute;
+    margin-top: 3%;
+}
+
 .charNum {
     margin-top: -6rem;
     margin-bottom: 2rem;
     margin-left: 20rem;
-}
+ }
 
 /* Style the Image Used to Trigger the Modal */
 #myImg {
@@ -162,115 +271,9 @@ img.expanded {
 }
 /* Footer */
 .footer{
+  background:  lightgrey;
+  color:black !important;
     background:  lightgrey;
     color:black !important;
 }
-}
-
-
-.modal-body {
-    align-content: right;
-}
-
-
-
-.modal-header {
-    background-color: #CB6363;
-}
-
-
-.rating-book-image {
-    position: absolute;
-    height: 69%;
-    width: 34%;
-}
-
-.review-title-div {
-    height: 270px;
-    width: 250px;
-}
-
-.commentary {
-    text-align: top;
-    height: 150px;
-    width: 100%;
-    resize: none;
-}
-
-.char-counter {
-    position: absolute;
-    margin-left: 80%;
-}
-
-.review-title-container {
-    position: absolute;
-    margin-top: -13%;
-    margin-left: 35%;
-}
-
-.review-comment-container {
-    position: relative;
-    margin-top: -6%;
-    margin-left: 37%;
-}
-
-.anonymous {
-    position: absolute;
-    margin-left: 37%;
-    height: 2%;
-}
-
-.line-break { 
-    background-color: #CB6363;
-    position: relative;
-    height: 7%;
-}
-
-*{
-    margin: 0;
-    padding: 0;
-}
-
-.rate {
-    position: relative;
-    height: 9px;
-    margin-right: 16%;
-    margin-bottom: 1%;
-    margin-top: 1%;
-    margin-left: 37%;
-}
-.rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
-}
-.rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:35px;
-    color:#ccc;
-}
-.rate:not(:checked) > label:before {
-    content: '★ ';
-}
-.rate > input:checked ~ label {
-    color: #ffc700;    
-}
-.rate:not(:checked) > label:hover,
-.rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
-}
-.rate > input:checked + label:hover,
-.rate > input:checked + label:hover ~ label,
-.rate > input:checked ~ label:hover,
-.rate > input:checked ~ label:hover ~ label,
-.rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
-}
-
-.review-1 {
-    border-style: solid;
-
 }

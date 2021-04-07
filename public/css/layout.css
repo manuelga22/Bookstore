@@ -96,7 +96,7 @@ img.expanded {
 .rate {
     position: relative;
     height: 9px;
-    margin-right: 16%;
+    margin-right: 10%;
     margin-bottom: 1%;
     margin-top: 1%;
     margin-left: 37%;
@@ -137,10 +137,6 @@ img.expanded {
 
 }
 
-.bookdetails {
-   
-
-}
 
 .yrate {
     position: absolute;
@@ -275,12 +271,9 @@ img.expanded {
 }
 /* Footer */
 .footer{
-<<<<<<< HEAD
   background:  lightgrey;
   color:black !important;
-=======
     background:  lightgrey;
     color:black !important;
 }
->>>>>>> baea10658d6435cf82283fd8ad161d5a9d50a41b
 }

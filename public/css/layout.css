@@ -34,16 +34,22 @@ img.expanded {
     align-content: right;
 }
 
+.about-profile
+{
+    position: relative;
+    margin-left: 2%;
+}
 
 
 .modal-header {
     background-color: #CB6363;
+  
 }
 
 
 .rating-book-image {
     position: absolute;
-    height: 69%;
+    height: 65%;
     width: 34%;
 }
 

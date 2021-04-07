@@ -14,7 +14,11 @@
             <h1>          </h1>
         </div>
         <div class="row">
+
+            <div class = 'img-books'>
             <img class="img-fluid" id="myImg"src="{{book.coverUrl}}" width="340" height="200">
+            </div>
+
         <div class="col-lg-8 col-md-10 col-sm-15 col-xs-20">
             <h3><u>{{book.title}}</u></h3>
             <p>{{book.description}}</p>
@@ -53,8 +57,11 @@
                  <div class = "rating-2-comment">
                     <h3><b> Review Tittle </b></h3>
                     <p> Review commentary goes here.</p>
+                    <p> Stars given </p>
+
                     <p> <b> User: {{username}} </b> </p>
                 </div>
+                <hr>
         </div>   
         </div>
     </div>
@@ -112,7 +119,7 @@ span.onclick = function() {
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="col-5 modal-title" id="exampleModalLabel"> <h1> <b> {{book.title}} </b></h1> </h5>
+                <h5  id="exampleModalLabel">  <b></b> <h3> {{book.title}} </h3> </b> </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

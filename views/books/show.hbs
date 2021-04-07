@@ -49,26 +49,24 @@
                         <i class="fa fa-plus"></i>
                         Add to Cart
                     </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> 
+                      Rate Book
+                    </button>
                 </form>
             </div>
             
                 <hr>
-                <div class = "rating-1-comment">
-                    <h3><b> Review Tittle </b></h3>
-                    <p> Review commentary goes here.</p>
-                    <p> Stars given </p>
-                    
-                    <p> <b> User: {{username}} </b> </p>
-                </div>
-                <hr>
-                 <div class = "rating-2-comment">
-                    <h3><b> Review Tittle </b></h3>
-                    <p> Review commentary goes here.</p>
-                    <p> Stars given </p>
-
-                    <p> <b> User: {{username}} </b> </p>
-                </div>
-                <hr>
+                
+                {{#each book.Ratings}}
+                  <div class = "rating-1-comment">
+                      <h3><b> {{review_title}} </b></h3>
+                      <p> {{comment}} </p>
+                      <p> {{score}} </p>
+                      
+                      <p> <b> User: {{username}} </b> </p>
+                  </div>
+                  <hr>
+                {{/each}}
         </div>   
         </div>
     </div>
@@ -169,7 +167,7 @@ span.onclick = function() {
             <br><br><br><br>
             <!-- Start of POST to database -->
             <form method = "POST" action = "{{urls.create}}">
-
+              <input type="hidden" name="rating[BookId]" value="{{book.id}}" />
             <div class = "form-group">
 
             <!-- Review Title

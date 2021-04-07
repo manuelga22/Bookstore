@@ -3,6 +3,7 @@ const { getIdParam, flash } = require('../helpers');
 const { models } = require('../sequelize');
 const express = require('express');
 const user = require('../sequelize/models/user');
+const book = require('../sequelize/models/book');
 const router = express.Router();
 
 class Books extends Page {
@@ -20,11 +21,12 @@ class Books extends Page {
       this.get(this.userWishListsApiUrl(req.session.user.id), (wishListsSuccess) => {
         // Remove the current wish list from the results since we can't transfer to it
         let wishLists = wishListsSuccess.data
-          
+        
         super.show(req, res, {
           wishLists: wishLists,
           hasMultipleWishlists: wishLists.length > 0,
           urls: {
+            create: "/ratings",
             edit: this.editPageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
           }
@@ -45,7 +47,7 @@ class Books extends Page {
 
   async find(req, res) {
     const id = getIdParam(req);
-    const book = await models.Book.findOne({include: models.Author, where: {id: id}})
+    const book = await models.Book.findOne({include: models.Author, include: models.Rating, where: {id: id}})
     res.status(200).json(book);
   }
 

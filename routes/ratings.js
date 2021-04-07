@@ -23,6 +23,15 @@ class Ratings extends Page {
     });
   }
 
+  createAction(req, res) {
+    console.log(req.body.rating)
+    this.post(this.createApiUrl(), req.body.rating, (success) => {
+      res.redirect(`/books/${success.data.BookId}`);
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
 }
 
 module.exports = Ratings

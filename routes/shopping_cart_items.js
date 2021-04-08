@@ -1,6 +1,8 @@
 const Page = require('./page');
 const { getIdParam, flash } = require('../helpers');
+const humps = require('humps');
 const { models } = require('../sequelize');
+const { singularize } = require('sequelize/lib/utils');
 const express = require('express');
 const router = express.Router();
 
@@ -16,16 +18,16 @@ class ShoppingCartItems extends Page {
         console.log(message)
       }).catch((err)=>console.log(err))
     })
-    router.post("/ShoppingCartItems/edit/:id",(req,res)=>{
-      this.editQuantity(req,res).then((message)=>{
-        console.log(message)
-      }).catch((err)=>console.log(err))
-    })
-    router.post("/ShoppingCartItems/delete/:id",(req,res)=>{
-      this.deleteItemInshoppingCart(req,res).then((message)=>{
-         console.log(message)
-      }).catch((err)=>console.log(err))
-    })
+    // router.post("/ShoppingCartItems/edit/:id",(req,res)=>{
+    //   this.editQuantity(req,res).then((message)=>{
+    //     console.log(message)
+    //   }).catch((err)=>console.log(err))
+    // })
+    // router.post("/ShoppingCartItems/delete/:id",(req,res)=>{
+    //   this.deleteItemInshoppingCart(req,res).then((message)=>{
+    //      console.log(message)
+    //   }).catch((err)=>console.log(err))
+    // })
     router.post("/deleteSaveForLater/:id",(req,res)=>{
       this.deleteItemInSaveForLater(req,res).then((message)=>{
          console.log(message)
@@ -54,15 +56,11 @@ class ShoppingCartItems extends Page {
    
         //get the names of the books and Price given the the ID of the book 
         for(const item of allItemsInShoppingCart){
-          const book =  await models.Book.findOne({
-            where:{id: item.BookId}
-          })
+          const book =  await models.Book.findOne({where:{id: item.BookId}})
           if(book)booksInfo.push(book)
         }  
         for(const item of allItemsInSavedForLater){
-          const book =  await models.Book.findOne({
-            where:{id: item.BookId}
-          })
+          const book =  await models.Book.findOne({where:{id: item.BookId}})
           if(book)savedForLater.push(book)
         }  
 
@@ -75,7 +73,8 @@ class ShoppingCartItems extends Page {
             bookId: booksInfo[i].id,
             quantity : allItemsInShoppingCart[i].quantity,
             deferred : allItemsInShoppingCart[i].deferred,
-            id: allItemsInShoppingCart[i].id
+            id: allItemsInShoppingCart[i].id,
+            resourceName: this.resourceName,
           } 
           totalCheckoutPrice += (booksInShoppingCart[i].price*booksInShoppingCart[i].quantity)
         }
@@ -101,7 +100,19 @@ class ShoppingCartItems extends Page {
       console.error(error);
     });
   }
-
+  updateAction(req, res) {
+    //req.body.wishList.UserId = this.currentUser.id;
+    flash(req, {success: "Successfully updated the item"});
+    super.put(this.updateApiUrl(req.params.id), req.body, (success) => {
+      res.redirect("/shopping_cart_items")
+    }, (error) => {
+      console.error(error);
+    });
+  }
+  destroyAction(req, res) {
+    flash(req, {success: "Item succesfully removed"});
+    super.destroyAction(req, res);
+  }
 
   //SHOPPING CART FUNCTIONS
   async addItemsToShoppingCart(req,res){
@@ -115,28 +126,8 @@ class ShoppingCartItems extends Page {
        this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.BookId})
        .then((message)=>{
           req.flash("message", "book has been added to the shopping cart")
-          res.redirect("/shopping_Cart_items")
+          res.redirect("/shopping_cart_items")
        }).catch((err)=>req.flash("err", "Error while adding book to the shopping cart"))
-  };
-  async editQuantity(req,res){
-      const id = req.params.id;
-      const form = req.body
-      await models.ShoppingCartItem.update({ quantity: form.qty }, { where: {id: id} })
-      .then((message)=>{
-        req.flash("message","Succesfully updated the item")
-        res.redirect("/shopping_cart_items");
-      }).catch(err=>req.flash("error",err)) 
-  };
-  async deleteItemInshoppingCart(req,res){
-    const itemId = req.params.id
-    await models.ShoppingCartItem.destroy({
-      where: {
-        id: itemId
-      }
-    }).then((message)=>{
-      req.flash("message", "book has been succesfully deleted")
-    }).catch((err)=>req.flash("error",err));
-      res.status(304).redirect("/shopping_cart_items");
   };
 
   // SAVE FOR LATER FUNCTIONS

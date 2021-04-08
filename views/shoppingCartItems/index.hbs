@@ -39,12 +39,12 @@
                                         <span>x{{quantity}}</span>
                                         <button class="btn btn-link editBtn" data-request="edit" data-action="/edit/{{id}}">Edit</button>
                                         {{!-- Toggle --}}
-                                        <form  id="edit-form-shoppingcart" method="POST" action="/ShoppingCartItems/edit/{{id}}" style="display:none">
-                                            <input type="number" class="count " name="qty" value="{{quantity}}" min="1" > 
+                                        <form  id="edit-form-shoppingcart" method="POST" action="{{resourceName}}/{{id}}?_method=PUT" style="display:none">
+                                            <input type="number" class="count " name="quantity" value="{{quantity}}" min="1" > 
                                             <button type="submit">submit</button>      
                                         </form>
                                         <button class="btn btn-link editBtn"  style="display:none">Cancel</button>
-                                        <button class="btn btn-danger shopping-cart-modal-btn"  data-request="delete" data-action="/ShoppingCartItems/delete/{{id}}">X</button>
+                                        <button class="btn btn-danger shopping-cart-modal-btn"  data-request="delete" data-action="/{{resourceName}}/{{id}}?_method=DELETE">X</button>
                                         <button class="add-to-save-for-later btn btn-link " data-bookid="{{bookId}}" >Save for later</button> 
                                    </div>
                           </div>
@@ -102,9 +102,9 @@
         
 
         {{!-- CHECKOUT BOX --}}
-        <div class="checkout-total-shoppingcart ">
+        <section class="checkout-total-shoppingcart ">
             <div class="container d-flex flex-column align-items-center">
-                <div class="row">
+                <div class="d-flex justidy-content-center">
                     <h3>Checkout Total:</h3>
                 </div>
                 {{#if shopping_items}}
@@ -123,7 +123,7 @@
                     <button class="btn">Checkout</button>
                 </div>
             </div>
-        </div>
+        </section>
         {{!-- END OF CHECKOUT BOX --}}
 
 
@@ -176,6 +176,7 @@
         border: solid #CB6363 2px;
         border-radius: 2em;
         min-width: 30vw;
+        align-self: baseline;
     }
     .checkout-total-shoppingcart>div>*{
         margin-bottom:0.5em;

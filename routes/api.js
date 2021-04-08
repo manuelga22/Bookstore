@@ -64,7 +64,7 @@ class Api {
   async update(req, res) {
     const id = getIdParam(req);
     
-    await models[singularize(this.constructor.name)].update(req.body, { where: { id: id } });
+    await models["ShoppingCartItem"].update(req.body, { where: { id: id } });
     const object = await models[singularize(this.constructor.name)].findByPk(id);
 
     if (object) {

@@ -10,7 +10,10 @@ class homeRoutes extends Page {
 
     constructor(){
         router.get('/', async (req, res, next) => {
-            let randomBooks = await models.Book.findAll({ order: Sequelize.literal('rand()')})
+            let randomBooks = await models.Book.findAll({ 
+                order: Sequelize.literal('rand()'), 
+                limit:5,
+            })
             res.render('home',{books: randomBooks});
         });
         super(router)

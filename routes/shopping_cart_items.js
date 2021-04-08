@@ -16,12 +16,12 @@ class ShoppingCartItems extends Page {
         console.log(message)
       }).catch((err)=>console.log(err))
     })
-    router.post("/edit/:id",(req,res)=>{
+    router.post("/ShoppingCartItems/edit/:id",(req,res)=>{
       this.editQuantity(req,res).then((message)=>{
         console.log(message)
       }).catch((err)=>console.log(err))
     })
-    router.post("/delete/:id",(req,res)=>{
+    router.post("/ShoppingCartItems/delete/:id",(req,res)=>{
       this.deleteItemInshoppingCart(req,res).then((message)=>{
          console.log(message)
       }).catch((err)=>console.log(err))
@@ -33,6 +33,9 @@ class ShoppingCartItems extends Page {
     })
     
     super(router);
+
+        //this.currentUser = req.session.user
+
   }
   
   router() { return router; }
@@ -45,6 +48,7 @@ class ShoppingCartItems extends Page {
         const savedForLater = []
 
         //get all items from shopping cart
+        //const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll({where:{UserId:this.currentUser.id}})
         const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
         const allItemsInSavedForLater = await models.SavedForLater.findAll()
    
@@ -62,8 +66,6 @@ class ShoppingCartItems extends Page {
           if(book)savedForLater.push(book)
         }  
 
-        console.log(booksInfo, allItemsInShoppingCart)
-        //merge the bookInfo with shopping cart info
         let booksInShoppingCart = new Array(allItemsInShoppingCart.length)
         for(let i = 0; i<booksInShoppingCart.length; i++){
           booksInShoppingCart[i] = {
@@ -100,6 +102,7 @@ class ShoppingCartItems extends Page {
     });
   }
 
+
   //SHOPPING CART FUNCTIONS
   async addItemsToShoppingCart(req,res){
        const body = req.body
@@ -131,7 +134,7 @@ class ShoppingCartItems extends Page {
         id: itemId
       }
     }).then((message)=>{
-      req.flash("message","Succesfully deleted the item")
+      req.flash("message", "book has been succesfully deleted")
     }).catch((err)=>req.flash("error",err));
       res.status(304).redirect("/shopping_cart_items");
   };
@@ -172,6 +175,7 @@ class ShoppingCartItems extends Page {
             
         }).catch(err=>console.log(err))
   };
+
 }
 
 module.exports = ShoppingCartItems

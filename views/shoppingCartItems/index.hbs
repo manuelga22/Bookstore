@@ -1,4 +1,4 @@
-{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+
 <div class="pt-3 container-fluid">
 
     {{#if msg}}
@@ -16,7 +16,10 @@
     
     <div class="pt-3 d-flex flex-wrap justify-content-around ">
 
-          <div class="shoppingCartAndSaveForLater">
+          <section class="shoppingCartAndSaveForLater">
+
+
+
               {{!-- SHOPPING CART --}}
                 {{#if shopping_items}}
                 {{#each shopping_items}}
@@ -26,42 +29,42 @@
                           <div class="book-cover-wrapper d-flex  justify-content-sm-center ">
                                 <img src="{{coverUrl}}" alt="book cover">   
                           </div>
-                          <div class="p-3 d-flex flex-grow-1 flex-wrap justify-content-around">
+                          <div class="pt-3 d-flex flex-grow-1 flex-column  flex-lg-row align-items-center justify-content-around">
                                     <div class="d-flex flex-grow-1 flex-column align-items-center justify-content-center">
-                                        <h5 class="card-title">{{title}}</h5>
+                                        <h5 class="card-title"><a href="/books/{{bookId}}">{{title}}</a></h5>
                                         <p class="card-text">Price: {{price}}$</p>
                                     </div>
-                                    <div class="d-flex  align-items-center ">
+                                    <div class="d-flex align-items-center ">
                                         {{!-- Toggle --}}
-                                        <span class ="" id="quantitySpan{{id}}">x{{quantity}}</span>
-                                        <button class="btn btn-link editBtn" id="editBtn{{id}}"  data-request="edit" data-action="/edit/{{id}}">Edit</button>
+                                        <span>x{{quantity}}</span>
+                                        <button class="btn btn-link editBtn" data-request="edit" data-action="/edit/{{id}}">Edit</button>
                                         {{!-- Toggle --}}
-                                        <form  id="edit-form-shoppingcart" method="post" action="/edit/{{id}}" style="display:none">
+                                        <form  id="edit-form-shoppingcart" method="POST" action="/ShoppingCartItems/edit/{{id}}" style="display:none">
                                             <input type="number" class="count " name="qty" value="{{quantity}}" min="1" > 
                                             <button type="submit">submit</button>      
                                         </form>
-                                        <button class="btn btn-link editBtn"  data-request="edit" data-action="/edit/{{id}}" style="display:none">Cancel</button>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-request="delete" data-action="/delete/{{id}}">X</button>
-                                        {{!-- <button type="submit" class="add-to-save-for-later btn btn-primary" data-bookid="{{bookId}}" >YES!</button>  --}}
+                                        <button class="btn btn-link editBtn"  style="display:none">Cancel</button>
+                                        <button class="btn btn-danger shopping-cart-modal-btn"  data-request="delete" data-action="/ShoppingCartItems/delete/{{id}}">X</button>
+                                        <button class="add-to-save-for-later btn btn-link " data-bookid="{{bookId}}" >Save for later</button> 
                                    </div>
                           </div>
                     </div>
                 </div>
                 {{/each}}
                 {{else}}
-                    <div class="d-flex flex-wrap justify-content-around">
-                        <h3>No items found in your shopping cart</h3>
-                    </div>
+                <div class="d-flex flex-wrap justify-content-around">
+                    <h3>No items found in your shopping cart</h3>
+                </div>
                 {{/if}}
               {{!-- END OF SHOPPING CART --}}
 
-                {{!-- SAVED FOR LATER  --}}
-                {{#if saved_for_later_items}}
+              {{!-- SAVED FOR LATER  --}}
+     
                 <div class="pt-3 d-flex justify-content-around">
                     <h2>Saved for later</h2>
                 </div>
-                {{/if}}
-                <div class="pt-3 d-flex flex-wrap ">
+  
+                <div class="d-flex flex-wrap justify-content-around">
                   
                         {{#if saved_for_later_items}}
                         {{#each saved_for_later_items}}
@@ -73,12 +76,12 @@
                                  </div>
                                   <div class="p-3 d-flex flex-grow-1 flex-wrap justify-content-around">
                                             <div class="d-flex flex-grow-1 flex-column align-items-center justify-content-center">
-                                                <h5 class="card-title">{{title}}</h5>
+                                                <h5 class="card-title"><a href="/books/{{bookId}}">{{title}}</a></h5>
                                                 <p class="card-text">Price: {{priceCents}}$</p>
                                             </div>
                                             <div class="d-flex  align-items-center ">
                                                 <button type="submit" class="add-to-shopping-cart btn btn-link " data-bookid="{{id}}" >Add to Cart</button> 
-                                                <button  class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-request="delete" data-action="/deleteSaveForLater/{{id}}">X</button>                             
+                                                <button  class="btn btn-danger shopping-cart-modal-btn"  data-request="delete" data-action="/deleteSaveForLater/{{id}}">X</button>                             
                                            </div>
                                   </div>
                             </div>
@@ -93,10 +96,7 @@
             {{!-- END OF SAVE FOR LATER --}}
 
 
-
-
-
-          </div>
+          </section>
             
 
         
@@ -108,9 +108,9 @@
                     <h3>Checkout Total:</h3>
                 </div>
                 {{#if shopping_items}}
-                <div class="row checkout-list">
+                <div class="d-flex flex-column checkout-list">
                    {{#each shopping_items}}
-                      <span><p>--{{title}} x{{quantity}}</p></span>
+                      <p>--{{title}} x{{quantity}}</p>
                    {{/each}}
                 </div>
                 {{/if}}
@@ -129,14 +129,14 @@
 
 
     </div>
-
-
-
 </div>
 
 
+
+
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="shopping_cart_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -155,6 +155,7 @@
   </div>
 </div>
 
+
 <style>
     .btn-danger{
         background:#CB6363 !important;
@@ -164,6 +165,7 @@
     }
     .book-cover-wrapper>*{
         max-height: 250px !important;
+        
     }
     .checkout-list{
        box-shadow: 5px;

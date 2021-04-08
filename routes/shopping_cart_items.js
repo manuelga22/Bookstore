@@ -68,7 +68,7 @@ class ShoppingCartItems extends Page {
         for(let i = 0; i<booksInShoppingCart.length; i++){
           booksInShoppingCart[i] = {
             title : booksInfo[i].title,
-            price : booksInfo[i].priceCents,
+            price : booksInfo[i].priceCents/100,
             coverUrl: booksInfo[i].coverUrl,
             bookId: booksInfo[i].id,
             quantity : allItemsInShoppingCart[i].quantity,
@@ -83,7 +83,7 @@ class ShoppingCartItems extends Page {
           shopping_items: booksInShoppingCart, 
           saved_for_later_items: savedForLater,
           totalCheckoutPrice,
-          msg: req.flash("message")
+     
         });
 
       }, (error) => {

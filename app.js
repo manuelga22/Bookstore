@@ -10,6 +10,8 @@ const session = require('express-session')
 
 // Collection of all predefined route methods
 const routes = {
+  userRoutes: require("./routes/userRoutes"),
+  homeRoutes: require("./routes/homeRoutes"),
   authors: require('./routes/authors'),
   books: require('./routes/books'),
   credit_cards: require('./routes/credit_cards'),
@@ -36,11 +38,7 @@ app.use(session({
 }));
 
 //app.use(cookieParser('secret'));
-app.use(session({ 
-  secret:'geeksforgeeks', 
-  saveUninitialized: true, 
-  resave: true
-})); 
+
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -52,12 +50,10 @@ app.use((req, res, next) => {
 // We do this so we can A) use PUT/DELETE in browser that don't support it
 // and B) so we can create links to delete records (e.g. /wish_lists/:id?_method=DELETE)
 app.use(function(req, res, next) {
-  if (req.query._method == 'PUT') {
-    req.method = 'PUT';
-    req.url = req.path;
-  }
-  if (req.query._method == 'DELETE') {
-    req.method = 'DELETE';
+  const allowedMethods = ["GET", "POST", "PUT", "DELETE"]
+
+  if (allowedMethods.includes(req.query._method)) {
+    req.method = req.query._method;
     req.url = req.path;
   }
 
@@ -95,11 +91,10 @@ async function init() {
   })
 
   // get and post routes
-  const homeRoutes = require("./routes/homeRoutes")
-  app.use('/', homeRoutes)
+  // const homeRoutes = require("./routes/homeRoutes")
+  // app.use('/', homeRoutes)
 
-  const userRoutes = require("./routes/userRoutes")
-  app.use('/', userRoutes)
+
 
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

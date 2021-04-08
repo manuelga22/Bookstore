@@ -30,18 +30,17 @@ class Page extends Api {
   // Common pages
   index(req, res, customObject = {}) {
     this.get(this.allApiUrl(), (success) => {
-
       res.render(
         `${this.constructor.name}/index`,
         Object.assign({
           [humps.camelize(this.constructor.name)]: success.data,
+          user: req.session.user,
           urls: {
             new: this.newPageUrl()
           }
         }, req.session.flash, customObject)
       );
       req.session.flash = {};
-
     }, (error) => {
       console.error(error);
     });
@@ -53,6 +52,7 @@ class Page extends Api {
         `${this.constructor.name}/show`,
         Object.assign({
           [humps.camelize(singularize(this.constructor.name))]: success.data,
+          user: req.session.user,
           urls: {
             edit: this.editPageUrl(req.params.id),
             delete: this.destroyPageUrl(req.params.id)
@@ -69,6 +69,7 @@ class Page extends Api {
     res.render(
       `${this.constructor.name}/new`,
       Object.assign({
+        user: req.session.user,
         urls: {
           index: this.indexPageUrl(),
           create: this.createPageUrl()
@@ -84,6 +85,7 @@ class Page extends Api {
         `${this.constructor.name}/edit`,
         Object.assign({
           [humps.camelize(singularize(this.constructor.name))]: success.data,
+          user: req.session.user,
           urls: {
             show: this.showPageUrl(req.params.id),
             update: this.updatePageUrl(req.params.id),
@@ -118,6 +120,7 @@ class Page extends Api {
 
   destroyAction(req, res) {
     this.delete(this.destroyApiUrl(req.params.id), (success) => {
+      console.log("THIS PAGE: ", this.indexPageUrl())
       res.redirect(this.indexPageUrl());
     }, (error) => {
       console.error(error);

@@ -15,6 +15,7 @@ const modelDefiners = [
   require('./models/rating'),
   require('./models/shipping_address'),
   require('./models/shopping_cart_item'),
+  require('./models/saved_for_later'),
   require('./models/user'),
   require('./models/wish_list_item'),
   require('./models/wish_list')

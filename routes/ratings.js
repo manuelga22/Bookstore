@@ -14,6 +14,24 @@ class Ratings extends Page {
   router() { return router; }
 
   // Add more api methods here...
+
+  index(req, res, customObject = {}) {
+    super.index(req, res, {
+      urls: {
+        create: this.createPageUrl()
+      }
+    });
+  }
+
+  createAction(req, res) {
+    console.log(req.body.rating)
+    this.post(this.createApiUrl(), req.body.rating, (success) => {
+      res.redirect(`/books/${success.data.BookId}`);
+    }, (error) => {
+      console.error(error);
+    });
+  }
+
 }
 
 module.exports = Ratings

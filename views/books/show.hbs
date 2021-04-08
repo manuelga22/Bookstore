@@ -1,0 +1,249 @@
+<!-- About Book Section  -->
+    <head>
+        <style>
+            h1 {text-align: center;}
+            p {text-align: left;}
+            div {text-align: left;}
+</style>
+    </head>
+    <section id="about">
+    <div class="container">
+        <div class="headr">
+            <h1>          </h1>
+            <h2>          </h2>
+            <h1>          </h1>
+        </div>
+        <div class="row">
+
+            <div class = 'img-books'>
+            <img class="img-fluid" id="myImg"src="{{book.coverUrl}}" width="340" height="200">
+            </div>
+
+        <div class="col-lg-8 col-md-10 col-sm-15 col-xs-20">
+            <h3><u>{{book.title}}</u></h3>
+            <p>{{book.description}}</p>
+            <div class="about-profile">
+                <ul class="details">
+                    <li> <b>Author Name    : </b> <a href="#">{{book.Author.name}}</a></li>
+                    <li> <b>Author Bio     : </b> {{book.Author.bio}}</li>
+                    <li> <b>Book Genre     : </b> {{book.genre}}</li>
+                    <li> <b>Publisher Name : </b> {{book.publisher}}</li>
+                    <li> <b>Release Date   : </b> {{book.releaseDate}}</li>
+                    <li> <b>Book Ratings   : </b> PLACEHOLDER STAR ICON</li>
+                    <li> <b>Price : </b>
+                        <script type="text/javascript">
+                        var dollar_cost = {{book.priceCents}} / 100
+                        document.write('$' + dollar_cost.toFixed(2))
+                        </script>
+                    </li>
+                </ul>
+
+                <form method="post" action="/shopping_cart_items">
+                    {{#if user}}
+                        <a href="#" class="btn btn-warning" id="open-wishlist-modal"><i class="fa fa-plus"></i> Add to Wishlist</a>
+                    {{/if}}
+                    <input type="hidden" name="shoppingCartItem[BookId]" value="{{book.id}}" />
+                    <input type="hidden" name="shoppingCartItem[quantity]" value="1" />
+                    <input type="hidden" name="shoppingCartItem[deferred]" value="0" />
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        Add to Cart
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> 
+                      Rate Book
+                    </button>
+                </form>
+            </div>
+            
+                <hr>
+                
+                {{#each book.Ratings}}
+                  <div class = "rating-1-comment">
+                      <h3><b> {{review_title}} </b></h3>
+                      <p> {{comment}} </p>
+                      <p> {{score}} </p>
+                      
+                      <p> <b> User: {{username}} </b> </p>
+                  </div>
+                  <hr>
+                {{/each}}
+        </div>   
+        </div>
+    </div>
+    </section>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+<!-- The Close Button -->
+<span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+<!-- Modal Content (The Image) -->
+<img class="modal-content" id="img01">
+
+<!-- Modal Caption (Image Text) -->
+<div id="caption"></div>
+</div>
+
+<div class="modal" id="wishlist-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Book to Wish List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="/wish_list_items">
+          <div class="form-group">
+            <input type="hidden" name="wishListItem[BookId]" value="{{book.id}}" />
+            <label for="wishList_name">Wish List</label>
+            <select class="form-control" name="wishListItem[WishListId]">
+              {{#each wishLists}}
+                <option value="{{id}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="submit-wishlist-item">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="dismiss-wishlist-modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('myImg');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    modalImg.alt = this.alt;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    modal.style.display = "none";
+}
+</script>
+
+<script src="/js/wish_list_items.js"></script>
+
+<script>
+   function countChars(obj){
+   document.getElementById("charNum").innerHTML = obj.value.length+' / 500 Characters';
+}
+</script>
+
+<!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5  id="exampleModalLabel">  <b></b> <h3> {{book.title}} </h3> </b> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+            <img class = "rating-book-image" src="{{book.coverUrl}}" alt = "">
+            <br><br><br><br>
+            <!-- Start of POST to database -->
+            <form method = "POST" action = "{{urls.create}}">
+              <input type="hidden" name="rating[BookId]" value="{{book.id}}" />
+            <div class = "form-group">
+
+            <!-- Review Title
+                Missing: Database field to input a review title. -->
+
+            <div class = 'review-title-container'> 
+                <h3><b> Review Title </b></h3>
+                
+                <input type="text" class = "review-title" maxlength = "25" id = "commenting-title-box" name = "rating[review_title]">
+            </div>
+
+            <br>
+
+            <div class = 'review-comment-container'>
+                <h3>
+                    <b> Comment </b>
+                </h3>
+            <textarea class = "commentary" id = "commenting-box" name="rating[comment]" id = "inputComment" onkeyup="countChars(this);"> </textarea>
+            </div>
+
+            <div class = 'char-counter'>
+            <p class = "char-box-counter" id ="charNum"> 0 / 500 Characters</p>
+            </div>
+
+            <br>
+
+            <div class = 'anonymous'>
+
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "0">
+             <label for="rating_anonymous"> Make Anonymous Review  </label>
+                <br>
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "1">
+             <label for="rating_anonymous"> Show Username </label>
+             
+            </div>
+
+<br> <br> 
+
+<div class="rate">
+  
+    <input type="radio" id="star5" name="rating[score]" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star4" name="rating[score]" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star3" name="rating[score]" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star2" name="rating[score]" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star1" name="rating[score]" value="1" />
+    <label for="star1" title="text">1 star</label>
+    <div class = 'yrate'>
+       <h3><b> Your Rating: </b></h3>
+    </div>
+   
+</div>
+<br> <br> <br>
+
+<div class = 'bookdetails'>
+  <p><b> Author: </b> {{book.Author.name}}</p>
+  <p><b> Publisher: </b> {{book.publisher}} </p>
+</div>
+
+            <hr class = 'line-break'>
+
+
+      
+
+             </div> 
+
+            <button type = "submit" class = "btn btn-primary"> Create Comment </button>
+            <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
+           </form>
+
+
+           </div>
+            
+          </div>
+        </div>
+      </div>

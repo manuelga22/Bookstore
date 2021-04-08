@@ -1,0 +1,137 @@
+<div class="ratings container">
+ 
+    <script>
+     function countChars(obj){
+     document.getElementById("charNum").innerHTML = obj.value.length+' / 500 Characters';
+    }
+    </script>
+
+    <h1> <center> Rating and Commenting </center>  </h1>
+    <br>
+    <br>
+
+    <!-- First Test Book -->
+    <div class = "book-container"> 
+      <div class = "book-test"> 
+         <h2> The Book of F# </h2>
+                 <img src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="Image goes here">
+
+         <p> Book Description </p>
+         <span> More about this book </span>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+              Rate Book
+          </button>
+      </div>
+     
+    </div>
+</div>
+    
+      <!-- Modal -->
+      <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h5 class="col-5 modal-title" id="exampleModalLabel"> <h1> <b> Book Title </b></h1> </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+              
+            <img class = "rating-book-image" src="https://m.media-amazon.com/images/I/810tovKf40L._AC_UY218_.jpg" alt="">
+            <br><br><br><br>
+            <!-- Start of POST to database -->
+           <form method = "POST" action = "{{urls.create}}">
+
+             <div class = "form-group">
+
+               <!-- Review Title
+                Missing: Database field to input a review title. -->
+
+             <div class = 'review-title-container'> 
+             <h3><b> Review Title </b></h3>
+             <input type="text" class = "review-title" maxlength = "25" id = "commenting-title-box" name = "rating[review_title]">
+             </div>
+
+              <br>
+
+             <div class = 'review-comment-container'>
+            <h3><b> Comment </b></h3>
+            <textarea class = "commentary" id = "commenting-box" name="rating[comment]" id = "inputComment" onkeyup="countChars(this);"> </textarea>
+             </div>
+
+            <div class = 'char-counter'>
+            <p class = "char-box-counter" id ="charNum"> 0 / 500 Characters</p>
+            </div>
+
+             <br>
+
+             <div class = 'anonymous'>
+
+               <input type="checkbox" id="rating_anonymous" name="rating[anonymous]" value="0">
+              <label for="rating_anonymous"> Make Anonymous Review </label><br>
+<!-- Re
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "0">
+             <label for="rating_anonymous"> Anonymous User  </label>
+
+             <input type="radio" id = "rating_anonymous" name = "rating[anonymous]" value = "1">
+             <label for="rating_anonymous"> Show Username </label>
+             -->
+            </div>
+
+<br> <br> 
+
+<div class="rate">
+  
+    <input type="radio" id="star5" name="rating[score]" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star4" name="rating[score]" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star3" name="rating[score]" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star2" name="rating[score]" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star1" name="rating[score]" value="1" />
+    <label for="star1" title="text">1 star</label>
+    <div class = 'yrate'>
+       <h3><b> Your Rating: </b></h3>
+    </div>
+   
+</div>
+<br> <br> <br>
+
+<div class = 'bookdetails'>
+  <p><b> Author: </b> Author name appears here </p>
+  <p><b> Publisher: </b> Publisher name appears here </p>
+</div>
+
+            <hr class = 'line-break'>
+
+
+      
+
+             </div> 
+
+            <button type = "submit" class = "btn btn-primary"> Create Comment </button>
+            <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Close </button>
+           </form>
+
+
+           </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+  <ul class="list-group">
+    {{#each Rating}}
+      <li class="list-group-item"><a href="/ratings/{{id}}">{{name}}</a></li>
+    {{/each}}
+  </ul>
+</div>
+

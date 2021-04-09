@@ -27,7 +27,7 @@ class ShoppingCartItems extends Page {
     
     super(router);
 
-        //this.currentUser = req.session.user
+    //this.currentUser = req.session.user
 
   }
   
@@ -41,9 +41,9 @@ class ShoppingCartItems extends Page {
         const savedForLater = []
 
         //get all items from shopping cart
-        //const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll({where:{UserId:this.currentUser.id}})
-        const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
-        const allItemsInSavedForLater = await models.SavedForLater.findAll()
+        const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll({where:{UserId:req.session.user.id}})
+        //const allItemsInShoppingCart =  await models.ShoppingCartItem.findAll()
+        const allItemsInSavedForLater = await models.SavedForLater.findAll({where:{UserId:req.session.user.id}})
    
         //get the names of the books and Price given the the ID of the book 
         for(const item of allItemsInShoppingCart){
@@ -114,9 +114,10 @@ class ShoppingCartItems extends Page {
        const bookObj = {
          BookId: parseInt(body.bookId),
          quantity: 1, //one is default
-         deferred: false
+         deferred: false,
+         UserId: req.session.user.id
        }
-       this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.BookId})
+       this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.BookId, UserId: req.session.user.id })
        .then((message)=>{
           flash(req, {success: "book has been added to the shopping cart"});
           res.redirect("/shopping_cart_items")
@@ -127,9 +128,10 @@ class ShoppingCartItems extends Page {
   async addItemToSaveForLater(req,res){
     const body = req.body
     const bookObj = {
-      BookId :parseInt(body.bookId)
+      BookId :parseInt(body.bookId),
+      UserId: req.session.user.id
     }
-    this.upsert(models.SavedForLater,bookObj, {BookId: bookObj.BookId})
+    this.upsert(models.SavedForLater,bookObj, {BookId: bookObj.BookId, UserId:req.session.user.id})
     .then((message)=>{
       flash(req, {success: "book has been added to save for later"});
       res.redirect("/shopping_cart_items");
@@ -138,7 +140,7 @@ class ShoppingCartItems extends Page {
 
   async deleteItemInSaveForLater(req,res){
     const itemId = req.params.id
-    await models.SavedForLater.destroy({ where: {BookId: itemId}})
+    await models.SavedForLater.destroy({ where: {BookId: itemId, UserId:req.session.user.id}})
     .then((message)=>{
       flash(req, {success: "Succesfully deleted the item"});
       res.status(304).redirect("/shopping_cart_items");
@@ -146,6 +148,7 @@ class ShoppingCartItems extends Page {
   };
    //updates or creates a new item
   async upsert(table, values, condition) {
+
      console.log(table)
      await table.findOne({ where: condition })
         .then(async (obj)=> {

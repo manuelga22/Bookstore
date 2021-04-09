@@ -44,7 +44,7 @@
 
 </head>
 
-<form action="action_page.php">
+<form action="/login" method="POST">
   <div class="container">
     <h1>Sign in to your Geek Text account</h1>
     <hr>
@@ -55,10 +55,10 @@
     <label for="password"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" id="password" required>
 
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="registerbtn" method="POST" action="/login">Log In</button>
   </div>
 
   <div class="container signin">
-    <p>Don't have an account? <a href="#">Register</a>.</p>
+    <p>Don't have an account? <a href="/sign-up">Register</a>.</p>
   </div>
 </form>

@@ -6,7 +6,13 @@ const port = 3000
 var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
-const session = require('express-session')
+var crypto = require('crypto');
+var mysql = require('mysql');
+var session = require("express-session");
+var MySQLStore = require('express-mysql-session')(session);
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+
 
 // Collection of all predefined route methods
 const routes = {
@@ -37,7 +43,18 @@ app.use(session({
   saveUninitialized: false
 }));
 
-//app.use(cookieParser('secret'));
+// Inititalize PassportJS library
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Session serialization
+passport.serializeUser(function(user, done) {
+  done(null, {id: user.id, email: user.email, role: user.role});
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, {id: user.id, email: user.email, role: user.role});
+});
 
 app.use(flash());
 
@@ -46,14 +63,24 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(function (req, res, next) {
+  if (req.session.user) {
+    res.locals.user = req.session.user;
+  }
+  console.log(res.locals.user);
+  next();
+});
+
 
 // We do this so we can A) use PUT/DELETE in browser that don't support it
 // and B) so we can create links to delete records (e.g. /wish_lists/:id?_method=DELETE)
 app.use(function(req, res, next) {
-  const allowedMethods = ["GET", "POST", "PUT", "DELETE"]
-
-  if (allowedMethods.includes(req.query._method)) {
-    req.method = req.query._method;
+  if (req.query._method == 'PUT') {
+    req.method = 'PUT';
+    req.url = req.path;
+  }
+  if (req.query._method == 'DELETE') {
+    req.method = 'DELETE';
     req.url = req.path;
   }
 

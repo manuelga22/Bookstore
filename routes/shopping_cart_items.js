@@ -18,16 +18,7 @@ class ShoppingCartItems extends Page {
         console.log(message)
       }).catch((err)=>console.log(err))
     })
-    // router.post("/ShoppingCartItems/edit/:id",(req,res)=>{
-    //   this.editQuantity(req,res).then((message)=>{
-    //     console.log(message)
-    //   }).catch((err)=>console.log(err))
-    // })
-    // router.post("/ShoppingCartItems/delete/:id",(req,res)=>{
-    //   this.deleteItemInshoppingCart(req,res).then((message)=>{
-    //      console.log(message)
-    //   }).catch((err)=>console.log(err))
-    // })
+
     router.post("/deleteSaveForLater/:id",(req,res)=>{
       this.deleteItemInSaveForLater(req,res).then((message)=>{
          console.log(message)
@@ -79,12 +70,13 @@ class ShoppingCartItems extends Page {
           totalCheckoutPrice += (booksInShoppingCart[i].price*booksInShoppingCart[i].quantity)
         }
         //add WHERE after for user
-        res.render(`${this.constructor.name}/index`,{
+        let obj = Object.assign({}, req.session.flash, {
           shopping_items: booksInShoppingCart, 
           saved_for_later_items: savedForLater,
           totalCheckoutPrice,
-     
-        });
+        })
+
+        res.render(`${this.constructor.name}/index`,obj);
 
       }, (error) => {
         console.error(error);
@@ -102,8 +94,9 @@ class ShoppingCartItems extends Page {
   }
   updateAction(req, res) {
     //req.body.wishList.UserId = this.currentUser.id;
-    flash(req, {success: "Successfully updated the item"});
+ 
     super.put(this.updateApiUrl(req.params.id), req.body, (success) => {
+      flash(req, {success: "Successfully updated the item"});
       res.redirect("/shopping_cart_items")
     }, (error) => {
       console.error(error);
@@ -125,9 +118,9 @@ class ShoppingCartItems extends Page {
        }
        this.upsert(models.ShoppingCartItem, bookObj, {BookId: bookObj.BookId})
        .then((message)=>{
-          req.flash("message", "book has been added to the shopping cart")
+          flash(req, {success: "book has been added to the shopping cart"});
           res.redirect("/shopping_cart_items")
-       }).catch((err)=>req.flash("err", "Error while adding book to the shopping cart"))
+       }).catch((err)=>flash(req, {danger: "Error while adding book to the shopping cart"}))
   };
 
   // SAVE FOR LATER FUNCTIONS
@@ -138,7 +131,7 @@ class ShoppingCartItems extends Page {
     }
     this.upsert(models.SavedForLater,bookObj, {BookId: bookObj.BookId})
     .then((message)=>{
-      req.flash("message", "book has been added to save for later")
+      flash(req, {success: "book has been added to save for later"});
       res.redirect("/shopping_cart_items");
     }).catch(err=>req.flash("err", "Error while adding book to the shopping cart"))
   };
@@ -147,7 +140,7 @@ class ShoppingCartItems extends Page {
     const itemId = req.params.id
     await models.SavedForLater.destroy({ where: {BookId: itemId}})
     .then((message)=>{
-      req.flash("message","Succesfully deleted the item")
+      flash(req, {success: "Succesfully deleted the item"});
       res.status(304).redirect("/shopping_cart_items");
      }).catch((err)=>req.flash("error",err));
   };

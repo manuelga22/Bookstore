@@ -14,7 +14,18 @@ class Authors extends Page {
   router() { return router; }
 
   // Add more api methods here...
-  
+  async all(req, res) {
+    const authors = await models.Author.findAll({include: models.Book });
+    res.status(200).json(authors);
+  };
+
+  async find(req, res) {
+    const id = getIdParam(req);
+    const author = await models.Author.findOne({include: [models.Book], where: {id: id}})
+      
+    console.log(author)
+    res.status(200).json(author);
+  }
 }
 
 module.exports = Authors

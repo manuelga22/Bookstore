@@ -44,17 +44,21 @@
                 <form method="post" action="/shopping_cart_items">
                     {{#if user}}
                         <a href="#" class="btn btn-warning" id="open-wishlist-modal"><i class="fa fa-plus"></i> Add to Wishlist</a>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> 
-                      Rate Book
-                    </button>
+                    
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"> 
+                        Rate Book
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                        Add to Cart
+                        </button>
+
                     {{/if}}
                     <input type="hidden" name="shoppingCartItem[BookId]" value="{{book.id}}" />
                     <input type="hidden" name="shoppingCartItem[quantity]" value="1" />
                     <input type="hidden" name="shoppingCartItem[deferred]" value="0" />
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-plus"></i>
-                        Add to Cart
-                    </button>
+                    
                     
                     
                 </form>

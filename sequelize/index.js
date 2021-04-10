@@ -6,7 +6,7 @@ const { applyAssociations } = require('./associations');
 
 
 //const sequelize = new Sequelize(process.env.GEEK_TEXT_DB_CONNECTION_URL,{password:"1234"} );
-const sequelize = new Sequelize(process.env.JAWSDB_URL );
+const sequelize = new Sequelize("mysql://xr7zsqnnhmeo88qp:ct16osw9xnsdn9xq@d6rii63wp64rsfb5.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/vkbksyhratxs35l1" );
 
 
 const modelDefiners = [

@@ -51,6 +51,7 @@ class Books extends Page {
       book.dataValues.averageScore = 5;
     console.log(book)
     res.status(200).json(book);
+    
   }
 
   // URLs

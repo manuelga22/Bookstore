@@ -137,6 +137,7 @@ class Page extends Api {
   }
 
   put(url, data, success, error) {
+
     axios.put(url, data).then(function (response) {
       success(response);
     }).catch(function (response) {

@@ -44,7 +44,7 @@
 
 </head>
 
-<form action="">
+<form method="POST" action="/register">
   <div class="container">
     <h1>Create your Geek Text Account</h1>
     <p>Register to start buying books at a bargain!</p>
@@ -60,10 +60,10 @@
     <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
     <hr>
 
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="registerbtn" action="/register" method="post">Register</button>
   </div>
 
   <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
+    <p>Already have an account? <a href="/log-in">Sign in</a>.</p>
   </div>
 </form>

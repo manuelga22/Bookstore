@@ -48,7 +48,7 @@ class Books extends Page {
   async find(req, res) {
     const id = getIdParam(req);
     const book = await models.Book.findOne({include: [models.Author, models.Rating], where: {id: id}})
-      book.dataValues.averageScore = 5;
+
     console.log(book)
     res.status(200).json(book);
     

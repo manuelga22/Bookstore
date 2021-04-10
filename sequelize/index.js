@@ -5,9 +5,9 @@ const { applyAssociations } = require('./associations');
 // E.g. export GEEK_TEXT_DB_CONNECTION_URL="mysql://user:pass@127.0.0.1:3306/database_name"
 
 
-const sequelize = new Sequelize(process.env.GEEK_TEXT_DB_CONNECTION_URL );
+//const sequelize = new Sequelize(process.env.GEEK_TEXT_DB_CONNECTION_URL );
 
-
+const sequelize = new Sequelize("mysql://xr7zsqnnhmeo88qp:ct16osw9xnsdn9xq@d6rii63wp64rsfb5.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/vkbksyhratxs35l1" );
 const modelDefiners = [
   require('./models/author'),
   require('./models/book'),

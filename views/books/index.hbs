@@ -14,7 +14,7 @@
         {{#each books}}
         <tr>
             <td><a href="/books/{{id}}">{{title}}</a></td>
-            <td>{{Author.name}}</td>
+            <td><a href="/authors/{{Author.id}}">{{Author.name}}</a></td>
             <td>
                 <script type="text/javascript">
                     var dollar_cost = {{priceCents}} / 100
